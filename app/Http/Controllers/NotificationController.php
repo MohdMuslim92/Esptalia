@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointments;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
     public function index()
     {
+        $userRole = Auth::user()->role;
         $notifications = Appointments::where('status', 'booked')
             ->orderBy('created_at', 'desc')
             ->join('patients', 'appointments.patient_id', '=', 'patients.id')
@@ -17,7 +19,10 @@ class NotificationController extends Controller
                 'doctors.last_name as doctor_last_name')
             ->get();
 
-        return response()->json($notifications);
+        return response()->json([
+            'allNotifications' => $notifications,
+            'user_role' => $userRole
+        ]);
     }
 
 /*    public function show()
