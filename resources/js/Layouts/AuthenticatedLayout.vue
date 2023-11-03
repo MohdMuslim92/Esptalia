@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, watch} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -11,11 +11,15 @@ import axios from 'axios';
 
 const notifications = ref([]);
 const showNotifications = ref(false);
+let user_role = ref('');
+let pollingInterval;
 
 const fetchNotifications = () => {
     axios.get('/notifications')
         .then(response => {
-            notifications.value = response.data;
+            notifications.value = response.data.allNotifications;
+            user_role.value = response.data.user_role;
+            console.log(user_role);
         })
         .catch(error => {
             console.error('Error fetching notifications:', error);
@@ -23,16 +27,34 @@ const fetchNotifications = () => {
 };
 
 // Poll for new notifications every 5 seconds (adjust the interval as needed)
-const pollNotifications = () => {
-    setInterval(fetchNotifications, 5000); // Poll every 5 seconds
+const startPolling = () => {
+    pollingInterval = setInterval(fetchNotifications, 5000);
 };
 
+const stopPolling = () => {
+    clearInterval(pollingInterval);
+};
 onMounted(() => {
+
     fetchNotifications(); // Initial fetch
-    pollNotifications(); // Start polling for new notifications
+    // Start polling if user_role is 'healthcare_provider'
+    if (user_role.value === 'healthcare_provider') {
+        startPolling();
+    }
+});
+// Watch for changes in user_role and start/stop polling accordingly
+watch(user_role, (newValue, oldValue) => {
+    if (newValue === 'healthcare_provider') {
+        startPolling();
+    } else {
+        stopPolling();
+    }
 });
 
 const showingNavigationDropdown = ref(false);
+
+
+
 </script>
 
 <template>
@@ -63,22 +85,26 @@ const showingNavigationDropdown = ref(false);
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <div class="ml-3 relative flex">
                                 <!-- Notifications Icon with Notification Count -->
-                                <div class="relative ml-3 pt-2" @click="showNotifications = !showNotifications">
-    <span class="cursor-pointer relative">
-        <i class="fas fa-first-aid text-blue-500" style="font-size: 20px;"></i>
-        <!-- Notification Count -->
-        <span class="absolute top-3 right-0 bg-red-500 text-white rounded-full px-2 py-1 text-xs" style="font-size: 10px;">{{ notifications.length }}</span>
-    </span>
+                                <div v-if="user_role === 'healthcare_provider'" class="relative ml-3 pt-2" @click="showNotifications = !showNotifications">
+                                    <span class="cursor-pointer relative">
+                                        <i class="fas fa-first-aid text-blue-500" style="font-size: 20px;"></i>
+                                        <!-- Notification Count -->
+                                        <span class="absolute top-3 right-0 bg-red-500 text-white rounded-full px-2 py-1
+                                         text-xs" style="font-size: 10px;">{{ notifications.length }}</span>
+                                    </span>
 
                                     <!-- Notifications List Dropdown -->
-                                    <div v-if="showNotifications" class="absolute right-0 mt-2 w-72 bg-white border border-gray-300 rounded-lg shadow-lg">
+                                    <div v-if="showNotifications" class="absolute right-0 mt-2 w-72 bg-white border
+                                    border-gray-300 rounded-lg shadow-lg">
                                         <div v-if="notifications.length > 0" class="p-2">
-                                            <div v-for="(notification, index) in notifications.slice(0, 5)" :key="index" class="mb-2 border-b border-gray-200 py-2">
+                                            <div v-for="(notification, index) in notifications.slice(0, 5)"
+                                                 :key="index" class="mb-2 border-b border-gray-200 py-2">
                                                 <a :href="route('booked-appointments')">
                                                     A new appointment by {{ notification.patient_name }}
                                                 </a>
                                             </div>
-                                            <div v-if="notifications.length > 5" class="text-blue-500 cursor-pointer hover:underline py-2">
+                                            <div v-if="notifications.length > 5" class="text-blue-500 cursor-pointer
+                                            hover:underline py-2">
                                                 <a :href="route('booked-appointments')">See more</a>
                                             </div>
                                         </div>
@@ -94,7 +120,9 @@ const showingNavigationDropdown = ref(false);
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                class="inline-flex items-center px-3 py-2 border border-transparent
+                                                text-sm leading-4 font-medium rounded-md text-gray-500 bg-white
+                                                hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
