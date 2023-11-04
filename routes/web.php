@@ -42,10 +42,26 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/landing-page', function () {
+    return Inertia::render('Esptalia', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->name('landing');
+
 Route::get('/Healthcare-Provider', function () {
     // Healthcare provider dashboard
     return Inertia::render('HealthcareDashboard');
 })->middleware(['auth', 'verified'])->name('healthcare.dashboard');
+
+Route::get('About', [AuthenticatedSessionController::class, 'create'])
+    ->name('About');
+
+Route::get('Contact', [AuthenticatedSessionController::class, 'create'])
+    ->name('Contact');
+
 
 // Add Doctor
 Route::get('/Add-doctor', [AddDoctorController::class, 'create'])
