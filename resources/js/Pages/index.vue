@@ -40,7 +40,7 @@ onMounted(() => {
         <div class="pb-5 absolute left-5">
             <!-- Logo -->
             <div class="shrink-0 flex items-center">
-                <Link :href="route('home')">
+                <Link :href="route('landing')">
                     <ApplicationLogo
                         class="block h-9 w-36 fill-current text-gray-800"
                     />
@@ -107,12 +107,12 @@ onMounted(() => {
 
     <div class="pt-40 inset-0  items-center justify-center text-center">
         <h1 class="text-black text-6xl font-extrabold mb-4">Esptalia</h1>
-        <p class="text-white text-xl font-medium text-black mb-4 pt-4">
+        <p class="text-black text-xl font-medium text-black mb-4 pt-4">
             Transforming Sudan's healthcare: seamless appointments, real-time info, and enhanced accessibility, empowering lives through digital innovation.
         </p>
     </div>
     <div class="flex justify-center mt-6 mb-4">
-        <a href="URL_TO_YOUR_DEPLOYED_PROJECT" target="_blank" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out">
+        <a href="/booking" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out">
             Book Appointment
         </a>
     </div>
