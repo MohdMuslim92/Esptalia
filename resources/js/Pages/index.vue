@@ -17,6 +17,15 @@ let currentIndex = 0;
 let textElement = '';
 const animatedText = ref('');
 let typingInterval;
+const isDropdownOpen = ref(false);
+
+function toggleDropdown() {
+    isDropdownOpen.value = !isDropdownOpen.value;
+}
+
+window.addEventListener('resize', () => {
+    isDropdownOpen.value = window.innerWidth <= 640;
+});
 
 // Function to display text with typewriter effect
 function displayText() {
@@ -59,41 +68,87 @@ onMounted(() => {
                 >Dashboard</Link
                 >
 
-
+                <!-- Navigation (Desktop) -->
                 <template v-else>
-                    <Link
-                        :href="route('home')"
-                        class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                    <div class="hidden sm:flex sm:items-center ">
+                        <Link
+                            :href="route('home')"
+                            class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
                     dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Home</Link
-                    >
+                        >Home</Link
+                        >
 
-                    <Link
-                        :href="route('About')"
-                        class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                        <Link
+                            :href="route('About')"
+                            class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
                     dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >About</Link
-                    >
+                        >About</Link
+                        >
 
-                    <Link
-                        :href="route('Contact')"
-                        class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                        <Link
+                            :href="route('Contact')"
+                            class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
                     dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Contact Us</Link
-                    >
-                    <Link
-                        :href="route('login')"
-                        class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                        >Contact Us</Link
+                        >
+                        <Link
+                            :href="route('login')"
+                            class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
                     dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Log in</Link
-                    >
+                        >Log in</Link
+                        >
 
-                    <Link
-                        v-if="canRegister"
-                        :href="route('register')"
-                        class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Register</Link
-                    >
+                        <Link
+                            v-if="canRegister"
+                            :href="route('register')"
+                            class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                        >Register</Link
+                        >
+                    </div>
+                    <!-- Dropdown menu for smaller screens -->
+                    <div class="sm:hidden absolute top-0 right-0 mt-5 mr-5">
+                        <div class=" pt-2 dropdown" :class="{ open: isDropdownOpen }">
+                            <button @click="toggleDropdown" class="flex dropdown-toggle">
+                                <p class="menu-icon pr-2">&#9776; </p>
+                                 Menu</button>
+                            <div v-if="isDropdownOpen" class="dropdown-menu">
+                                <Link
+                                    :href="route('home')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >Home</Link
+                                >
+
+                                <Link
+                                    :href="route('About')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >About</Link
+                                >
+
+                                <Link
+                                    :href="route('Contact')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >Contact Us</Link
+                                >
+                                <Link
+                                    :href="route('login')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >Log in</Link
+                                >
+
+                                <Link
+                                    v-if="canRegister"
+                                    :href="route('register')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >Register</Link
+                                >
+                            </div>
+                        </div>
+                    </div>
                 </template>
             </div>
 
@@ -126,7 +181,7 @@ onMounted(() => {
             <div class="flex items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
                 <div class="flex-shrink-0">
                     <img src="../../img/feature1.png" alt="Online Appointment Booking"
-                         class="h-40 w-40 object-cover rounded-full">
+                         class="h-60 w-60 object-contain rounded-2xl">
                 </div>
                 <div class="ml-6">
                     <h3 class="text-xl font-semibold text-indigo-600 mb-2">Online Appointment Booking</h3>
@@ -141,7 +196,7 @@ onMounted(() => {
             <div class="flex items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
                 <div class="flex-shrink-0">
                     <img src="../../img/feature2.png" alt="Comprehensive Health Records"
-                         class="h-40 w-40 object-cover rounded-full">
+                         class="h-60 w-60 object-contain rounded-2xl">
                 </div>
                 <div class="ml-6">
                     <h3 class="text-xl font-semibold text-indigo-600 mb-2">Comprehensive Health Records</h3>
@@ -156,7 +211,7 @@ onMounted(() => {
             <div class="flex items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
                 <div class="flex-shrink-0">
                     <img src="../../img/feature3.png" alt="Healthcare Provider Dashboard"
-                         class="h-40 w-40 object-cover rounded-full">
+                         class="h-60 w-60 object-contain rounded-2xl">
                 </div>
                 <div class="ml-6">
                     <h3 class="text-xl font-semibold text-indigo-600 mb-2">Healthcare Provider Dashboard</h3>
@@ -266,6 +321,37 @@ onMounted(() => {
     display: flex;
 }
 
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.dropdown-menu {
+    display: block;
+    padding: 10px 0; /* Add padding to the dropdown menu */
+    margin-top: 5px; /* Add margin to separate the dropdown menu from the toggle button */
+}
+
+.dropdown-menu .link {
+    text-align: left;
+    display: block;
+    white-space: nowrap; /* Prevent line breaks within the link */
+    padding-top: 4px; /* Add padding to the links inside the dropdown */
+    color: #333; /* Set the text color */
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.dropdown-menu .link:hover {
+    background-color: #f7f7f7; /* Change the background color on hover */
+}
 .animated-text {
     margin-top: 5em;
     height: 4em;
