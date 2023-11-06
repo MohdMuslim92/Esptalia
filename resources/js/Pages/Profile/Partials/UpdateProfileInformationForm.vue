@@ -303,7 +303,7 @@ const submitForm = async () => {
                         v-model="form.specialization"
                         required>
                         <option :value="form.specialization" selected>{{ form.specialization }}</option>
-                        <option v-if="form.specialization !== 'General'" value="general">General</option>
+                        <option v-if="form.specialization !== 'General'" value="General">General</option>
                         <option v-if="form.specialization !== 'Eye'" value="Eye">Eye</option>
                         <option v-if="form.specialization !== 'ENT'" value="ENT">ENT</option>
                     </select>
