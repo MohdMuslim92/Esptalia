@@ -15,14 +15,17 @@ const currentAppointmentIndex = ref(0);
 const fetchAppointments = () => {
     axios.get('/notifications')
         .then(response => {
-            appointments.value = response.data;
-            visibleAppointments.value = appointments.value.slice(0, 3);
+            if (response.data && response.data.allNotifications && Array.isArray(response.data.allNotifications)) {
+                appointments.value = response.data.allNotifications;
+                visibleAppointments.value = appointments.value.slice(0, 3);
+            } else {
+                console.error('Invalid or empty data format received from API:', response.data);
+            }
         })
         .catch(error => {
             console.error('Error fetching appointments:', error);
         });
 };
-
 onMounted(fetchAppointments);
 
 const scrollLeft = () => {
@@ -77,13 +80,13 @@ const appointmentscrollRight = () => {
 const confirmAppointment = (appointmentId) => {
     axios.patch(`/api/appointments/confirm/${appointmentId}`, { status: 'confirmed' })
         .then(response => {
-            // Handle success, for example, update the UI or show a success message
+            // Handle success
             console.log('Appointment confirmed successfully:', response.data);
             // Reload appointments after confirming
             fetchAppointments();
         })
         .catch(error => {
-            // Handle error, for example, show an error message to the user
+            // Handle error, show an error message to the user
             console.error('Error confirming appointment:', error);
         });
 };
@@ -96,7 +99,7 @@ const cancelAppointment = (appointmentId) => {
             fetchAppointments();
         })
         .catch(error => {
-            // Handle error, for example, show an error message to the user
+            // Handle error,show an error message to the user
             console.error('Error canceling appointment:', error);
         });
 };
