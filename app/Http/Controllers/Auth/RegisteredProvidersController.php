@@ -135,7 +135,7 @@ class RegisteredProvidersController extends Controller
 
             Auth::login($user);
 
-            return redirect(RouteServiceProvider::HOME);
+            return redirect(RouteServiceProvider::HealthcareDashboard);
         } catch (\Exception $e) {
             \DB::rollback();
             // Handle exception (log, return response, etc.)
