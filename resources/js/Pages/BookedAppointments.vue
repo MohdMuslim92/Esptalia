@@ -115,7 +115,8 @@ const cancelAppointment = (appointmentId) => {
         </template>
         <div class="h-screen flex items-center justify-center">
             <div class="flex-col items-center space-y-8 pl-20 justify-evenly">
-                <div v-if="appointments.length > 0" class="flex space-x-8 mb-8">
+                <h1 class="text-6xl font-bold text-center mb-4">Waiting For Confirmation</h1>
+                <div v-if="appointments.length > 0" class="flex space-x-4 mb-4">
                     <div v-for="(appointment, index) in visibleAppointments" :key="index" class="flex-shrink-0 w-72 card">
                         <div class="border rounded-lg p-4">
                             <p><strong>Patient name:</strong> {{ appointment.patient_name }}</p>
@@ -134,16 +135,21 @@ const cancelAppointment = (appointmentId) => {
                         </div>
                     </div>
                 </div>
+                <div v-else class="justify-center flex space-x-8 mb-8">
+                    <h1 class="text-3xl font-bold text-center mb-8">You Have No Appointments To Confirm</h1>
+                </div>
+
                 <div class="flex justify-center mt-4" v-if="appointments.length > visibleAppointments.length">
-                        <button @click="scrollLeft" class="button mr-2">&#8249;</button>
-                        <button @click="scrollRight" class="button">&#8250;</button>
+                    <button @click="scrollLeft" class="button mr-2">&#8249;</button>
+                    <button @click="scrollRight" class="button">&#8250;</button>
                 </div>
             </div>
         </div>
 
         <div class="h-screen flex items-center justify-center">
             <div class="flex-col items-center space-y-8 pl-20 justify-evenly">
-                <div v-if="allAppointments.length > 0" class="flex space-x-8 mb-8">
+                <h1 class="text-6xl font-bold text-center mb-4">Appointments History</h1>
+                <div v-if="allAppointments.length > 0" class="flex space-x-4 mb-4">
                     <div v-for="(allAppointment, appointmentindex) in allVisibleAppointments"
                          :key="appointmentindex" class="flex-shrink-0 w-72 card">
                         <div class="border rounded-lg p-4">
@@ -156,6 +162,10 @@ const cancelAppointment = (appointmentId) => {
                         </div>
                     </div>
                 </div>
+                <div v-else class="justify-center flex space-x-8 mb-8">
+                    <h1 class="text-3xl font-bold text-center mb-8">You don't have Appointments yet</h1>
+                </div>
+
                 <div class="flex justify-center mt-4" v-if="allAppointments.length > allVisibleAppointments.length">
                     <button @click="appointmentscrollLeft" class="button mr-2">&#8249;</button>
                     <button @click="appointmentscrollRight" class="button">&#8250;</button>
