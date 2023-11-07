@@ -1,8 +1,8 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import ApplicationLogo from '../Components/ApplicationLogo.vue';
-import {  onMounted, ref } from 'vue';
-
+import {  onMounted, ref, defineComponent } from 'vue';
+import axios from 'axios';
 defineProps({
     canLogin: {
         type: Boolean,
@@ -16,8 +16,12 @@ const animationText = 'Revolutionizing Health, Empowering Lives';
 let currentIndex = 0;
 let textElement = '';
 const animatedText = ref('');
+const notifications = ref([]);
+let user_role = ref('');
 let typingInterval;
 const isDropdownOpen = ref(false);
+const auth = ref('');
+const userRole = ref(null);
 
 function toggleDropdown() {
     isDropdownOpen.value = !isDropdownOpen.value;
@@ -37,9 +41,23 @@ function displayText() {
         clearInterval(typingInterval);
     }
 }
+
+
+const getUserRole = () => {
+    axios.get('/notifications')
+        .then(response => {
+            user_role.value = response.data.user_role;
+            console.log(userRole.value);
+        })
+        .catch(error => {
+            console.error('Error fetching notifications:', error);
+        });
+};
 onMounted(() => {
     typingInterval = setInterval(displayText, 100); // Adjust typing speed (interval) as needed
+    getUserRole();
 });
+
 
 </script>
 
@@ -60,13 +78,22 @@ onMounted(() => {
 
         <div class="flex absolute top-0 right-0 transform   sm:mr-10 sm:mt-0">
             <div v-if="canLogin" class="sm:top-0 sm:right-0 p-6 text-right">
-                <Link
-                    v-if="$page.props.auth.user"
-                    :href="route('dashboard')"
-                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                <div v-if="$page.props.auth.user">
+                    <Link
+                        v-if="user_role === 'healthcare_provider'"
+                        :href="route('healthcare.dashboard')"
+                        class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
                 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                >Dashboard</Link
-                >
+                    >Provider Dashboard</Link
+                    >
+                    <Link
+                        v-else
+                        :href="route('dashboard')"
+                        class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                    >Dashboard</Link
+                    >
+                </div>
 
                 <!-- Navigation (Desktop) -->
                 <template v-else>
