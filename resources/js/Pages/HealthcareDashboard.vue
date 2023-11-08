@@ -58,7 +58,7 @@ watch(() => provider.value.type, async (newValue) => {
         try {
             if (newValue === 'hospital') {
                 // Make API call to HospitalController
-                const hospitalResponse = await axios.get(`/api/hospital/${provider.value.id}`);
+                const hospitalResponse = await axios.get(`/api/hospital/${provider.value.user_id}`);
                 hospital = hospitalResponse.data;
                 state.value = hospitalResponse.data.state;
                 city.value = hospitalResponse.data.city;
@@ -70,7 +70,7 @@ watch(() => provider.value.type, async (newValue) => {
             } else if (newValue === 'medical_center') {
 
                 // Make API call to MedicalCenterController
-                const medicalCenterResponse = await axios.get(`/api/medical-center/${provider.value.id}`);
+                const medicalCenterResponse = await axios.get(`/api/medical-center/${provider.value.user_id}`);
                 medicalCenter.value = medicalCenterResponse.data;
                 state.value = medicalCenterResponse.data.state;
                 city.value = medicalCenterResponse.data.city;
@@ -83,7 +83,7 @@ watch(() => provider.value.type, async (newValue) => {
                 console.log(medicalCenterResponse.data);
             } else if (newValue === 'clinic') {
                 // Make API call to ClinicController
-                const clinicResponse = await axios.get(`/api/clinic/${provider.value.id}`);
+                const clinicResponse = await axios.get(`/api/clinic/${provider.value.user_id}`);
                 clinic = clinicResponse.data;
                 state.value = clinicResponse.data.state;
                 city.value = clinicResponse.data.city;
