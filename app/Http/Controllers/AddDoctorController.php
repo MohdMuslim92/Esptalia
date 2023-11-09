@@ -72,7 +72,7 @@ class AddDoctorController extends Controller
         // Handle file upload (image is storing in a public directory)
         $file = $request->file('doctor_pic');
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('doctor_images'), $fileName);
+        $file->move(public_path('api/doctor_images'), $fileName);
 
         // Update the doctor's profile picture field in the doctors table
         $doctor->update(['doctor_pic' => 'doctor_images/' . $fileName]);
