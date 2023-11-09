@@ -51,7 +51,7 @@ class RegisteredProvidersController extends Controller
             'type' => 'required|string|max:255',
             'specialization' => 'required|string|max:255',
             'license_number' => 'required|string|max:255',
-            'license_pic' => 'required|image',
+            'license_pic' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         try {
@@ -108,24 +108,24 @@ class RegisteredProvidersController extends Controller
                         'user_id' => $user->id,
                         'type' => $request->type,
                         'hospital_id' => $provider->id,
-                    'specialization' => $request->specialization,
-                        'license_pic' => $request->file('license_pic')->store('path_to_store_images'),
+                        'specialization' => $request->specialization,
+                        'license_pic' => $request->file('license_pic')->store('resources/img/providers', 'public'),
                     ]);
                     } elseif ($request->type == 'medical_center') {
                     Providers::create([
                         'user_id' => $user->id,
                         'type' => $request->type,
                         'medical_center_id' => $provider->id,
-                    'specialization' => $request->specialization,
-                        'license_pic' => $request->file('license_pic')->store('path_to_store_images'),
+                        'specialization' => $request->specialization,
+                        'license_pic' => $request->file('license_pic')->store('resources/img/providers', 'public'),
                     ]);
                 } else {
                     Providers::create([
                         'user_id' => $user->id,
                         'type' => $request->type,
                         'clinic_id' => $provider->id,
-                    'specialization' => $request->specialization,
-                        'license_pic' => $request->file('license_pic')->store('path_to_store_images'),
+                        'specialization' => $request->specialization,
+                        'license_pic' => $request->file('license_pic')->store('resources/img/providers', 'public'),
                     ]);
                 }
             }
