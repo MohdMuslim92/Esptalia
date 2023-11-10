@@ -48,8 +48,11 @@ class DoctorsController extends Controller
         // Get the userId
         $userId = auth()->user()->id;
 
+        // Get the doctor email
+        $email = $request->currentEmail;
+
         // Find the doctor based on the passed email
-        $doctor = Doctors::where('id', $id)->first();
+        $doctor = Doctors::where('email', $email)->first();
 
         // Check if the doctor is found
         if (!$doctor) {
@@ -82,10 +85,10 @@ class DoctorsController extends Controller
             // Doctor fields
             'first_name' => ['string', 'max:255'],
             'last_name' => ['string', 'max:255'],
-            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($userId)],
+            'email' => ['email', 'max:255'],
             'phone_number' => ['string', 'max:255'],
             'gender' => ['string', 'max:1'],
-            'speciality' => ['string', 'max:100'],
+            'speciality' => ['string', 'in:General,Eye,ENT', 'max:100'],
 //            'doctor_pic' => ['image', 'max:2048'],
 
             // Doctor locations fields
@@ -95,6 +98,7 @@ class DoctorsController extends Controller
 
         ]);
         if ($validator->fails()) {
+//            dd(json_encode($validator->errors()->all()));
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $userData = $validator->validated();
@@ -102,12 +106,12 @@ class DoctorsController extends Controller
 
         // Convert working_days array to JSON string
         $userData['working_days'] = json_encode($request->input('working_days'));
-//        dd($userData['working_days']);
+
         $request->user()->$providerName->doctorLocation->fill($userData);
         $request->user()->$providerName->doctorLocation->save();
         $request->user()->$providerName->doctorLocation->doctor->fill($userData);
         $request->user()->$providerName->doctorLocation->doctor->save();
-        }
+    }
 
     public function searchDoctors(Request $request)
     {

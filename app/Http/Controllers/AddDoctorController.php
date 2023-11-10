@@ -43,7 +43,7 @@ class AddDoctorController extends Controller
             'phone_number' => 'required|string',
             'email' => 'required|email',
             'gender' => 'required|string|in:M,F',
-            'speciality' => 'required|string|in:general,eye,ent',
+            'speciality' => 'required|string|in:General,Eye,ENT',
             'working_days' => 'required|string',
             'working_hours' => 'required|string',
             'availability' => 'required|string|in:Y,N',

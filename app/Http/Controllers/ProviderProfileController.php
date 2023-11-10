@@ -55,7 +55,7 @@ class ProviderProfileController extends Controller
             'specialization' => ['string', 'max:255'],
             'type' => ['string', 'max:255'],
 
-            // Medical Center fields
+            // Medical Center, Hospital or Clinic fields
             'state' => ['string', 'max:255'],
             'city' => ['string', 'max:255'],
             'description' => ['string', 'max:255'],

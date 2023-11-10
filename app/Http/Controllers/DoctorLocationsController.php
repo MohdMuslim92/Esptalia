@@ -27,6 +27,8 @@ class DoctorLocationsController extends Controller
             // Handle the case where the provider data is not found
             return response()->json(['error' => 'Provider not found'], 404);
         }
+
+        // Retrieve doctor data from doctorLocations based on doctor id and provider id
         $doctorLocations = DoctorLocations::where('doctor_id', $doctorID)->where($providerType, $userId)->first();
 
         if (!$doctorLocations) {

@@ -75,9 +75,9 @@ Route::get('/Edit-doctor', [DoctorsController::class, 'update'])
 Route::get('/Get-doctor/{email}', [DoctorsController::class, 'index'])
     ->name('GetDoctor');
 
-// Get Doctor
-//Route::get('/Get-locations/{doctorID}', [DoctorLocationsController::class, 'index'])
-//    ->name('GetDoctor');
+// Get Doctor location data
+Route::get('/Get-locations/{doctorID}', [DoctorLocationsController::class, 'index'])
+    ->name('GetDoctor');
 
 // Edit Doctor
 Route::get('/Edit-doctor/{email}', [DoctorsController::class, 'edit'])
