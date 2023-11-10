@@ -13,8 +13,8 @@ const form = useForm({
     phone_number: '',
     gender: '',
     speciality: '',
-    working_days: 'NA',
-    working_hours: 'NA',
+    working_days: '[]',
+    working_hours: '[]',
     availability: 'N',
     doctor_pic: '',
 });
@@ -134,9 +134,9 @@ const onFileChange = (event) => {
                         class="my-select"
                         v-model="form.speciality"
                         required>
-                        <option value="general">General</option>
-                        <option value="eye">Eye</option>
-                        <option value="ent">ENT</option>
+                        <option value="General">General</option>
+                        <option value="Eye">Eye</option>
+                        <option value="ENT">ENT</option>
                     </select>
 
                     <InputError class="mt-2" :message="form.errors.speciality" />

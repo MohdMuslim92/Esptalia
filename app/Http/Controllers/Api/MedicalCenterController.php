@@ -17,13 +17,6 @@ class MedicalCenterController extends Controller
             return response()->json(['error' => 'User not found'], 404);
         }
 
-        // Get the provider information through the user-provider relationship
-        $provider = $user->provider;
-
-        if (!$provider) {
-            // Handle the case where the provider data is not found
-            return response()->json(['error' => 'Provider not found'], 404);
-        }
 
         // Get the Medical Center information through the provider-medicalCenter relationship
         $medicalCenter = $user->provider->medicalCenter;

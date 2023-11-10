@@ -27,6 +27,7 @@ class Doctors extends Authenticatable
         'email',
         'gender',
         'speciality',
+        'doctor_pic',
     ];
 
     // Relationship to Location

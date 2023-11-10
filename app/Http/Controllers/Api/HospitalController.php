@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Providers;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class HospitalController extends Controller
 {
@@ -18,17 +19,25 @@ class HospitalController extends Controller
 
     public function show($userId)
     {
-        // Retrieve provider data based on the user ID
-        $provider = Providers::where('user_id', $userId)->first();
+        // Retrieve the user based on the ID
+        $user = User::with('provider.hospital')->find($userId);
 
-        if (!$provider) {
+        if (!$user) {
+            // Handle the case where the user is not found
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Get the Hospital information through the provider-hospital relationship
+        $hospital = $user->provider->hospital;
+
+        if (!$hospital) {
             // Handle the case where the provider data is not found
             return response()->json(['error' => 'Provider not found'], 404);
         }
 
-        // Return the provider data as JSON response
-        return response()->json($provider);
+        return response()->json($hospital);
     }
+
 
     public function update(Request $request, $id)
     {
