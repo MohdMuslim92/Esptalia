@@ -53,6 +53,7 @@ const form = useForm({
     first_name: first_name,
     last_name: last_name,
     phone_number: phone_number,
+    currentEmail: email,
     email: email,
     gender: gender,
     speciality: speciality,
@@ -187,6 +188,16 @@ const submitForm = async () => {
                             autofocus
                             autocomplete="phone" />
                         <InputError class="mt-2" :message="form.errors.phone_number" />
+                    </div>
+
+                    <div class="form-field">
+                        <TextInput
+                            id="currentEmail"
+                            type="hidden"
+                            class="mt-1 block w-full"
+                            v-model="form.currentEmail"
+                            required
+                            autocomplete="username" />
                     </div>
 
                     <div class="form-field">
