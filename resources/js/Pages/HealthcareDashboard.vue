@@ -156,7 +156,7 @@ const filteredWorkingDays = computed(() => {
                 <!-- Fixed Buttons -->
                 <div class="md:absolute bottom-4 left-1/2 transform -translate-x-1/2">
                     <div class="flex space-x-4">
-                        <a :href="route('appointments.index')">
+                        <a :href="route('booked-appointments')">
                             <button class="rounded-full bg-blue-500 text-white px-4 py-2 md:px-6 md:py-3">Appointments</button>
                         </a>
                         <a :href="route('doctors')">
