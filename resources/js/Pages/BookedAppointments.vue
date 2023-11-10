@@ -117,12 +117,12 @@ const cancelAppointment = (appointmentId) => {
             <div class="flex-col items-center space-y-8 pl-20 justify-evenly">
                 <div v-if="appointments.length > 0" class="flex space-x-8 mb-8">
                     <div v-for="(appointment, index) in visibleAppointments" :key="index" class="flex-shrink-0 w-72 card">
-                        <div class="border rounded-lg p-4">
-                            <p><strong>Patient name:</strong> {{ appointment.patient_name }}</p>
-                            <p><strong>Patient Phone:</strong> {{ appointment.phone_number }}</p>
-                            <p><strong>Patient email:</strong> {{ appointment.email }}</p>
-                            <p><strong>Doctor name:</strong> {{ appointment.doctor_first_name }} {{ appointment.doctor_last_name }}</p>
-                            <p><strong>Appointment time:</strong> {{ appointment.appointment_time }}</p>
+                        <div class="max-w-full border rounded-lg p-4 ">
+                            <p class="line-clamp"><strong>Patient name:</strong> {{ appointment.patient_name }}</p>
+                            <p class="line-clamp"><strong>Patient Phone:</strong> {{ appointment.phone_number }}</p>
+                            <p class="line-clamp"><strong>Patient email:</strong> {{ appointment.email }}</p>
+                            <p class="line-clamp"><strong>Doctor name:</strong> {{ appointment.doctor_first_name }} {{ appointment.doctor_last_name }}</p>
+                            <p class="line-clamp"><strong>Appointment time:</strong> {{ appointment.appointment_time }}</p>
                             <div class="flex justify-between mt-4">
                                 <button @click="confirmAppointment(appointment.id)"
                                         class="button bg-blue-800 text-white px-4 py-2
@@ -147,12 +147,12 @@ const cancelAppointment = (appointmentId) => {
                     <div v-for="(allAppointment, appointmentindex) in allVisibleAppointments"
                          :key="appointmentindex" class="flex-shrink-0 w-72 card">
                         <div class="border rounded-lg p-4">
-                            <p><strong>Patient name:</strong> {{ allAppointment.patient_name }}</p>
-                            <p><strong>Patient Phone:</strong> {{ allAppointment.phone_number }}</p>
-                            <p><strong>Patient email:</strong> {{ allAppointment.email }}</p>
-                            <p><strong>Doctor name:</strong> {{ allAppointment.doctor_first_name }} {{ allAppointment.doctor_last_name }}</p>
-                            <p><strong>Appointment time:</strong> {{ allAppointment.appointment_time }}</p>
-                            <p><strong>Appointment status:</strong> {{ allAppointment.status }}</p>
+                            <p class="line-clamp"><strong>Patient name:</strong> {{ allAppointment.patient_name }}</p>
+                            <p class="line-clamp"><strong>Patient Phone:</strong> {{ allAppointment.phone_number }}</p>
+                            <p class="line-clamp"><strong>Patient email:</strong> {{ allAppointment.email }}</p>
+                            <p class="line-clamp"><strong>Doctor name:</strong> {{ allAppointment.doctor_first_name }} {{ allAppointment.doctor_last_name }}</p>
+                            <p class="line-clamp"><strong>Appointment time:</strong> {{ allAppointment.appointment_time }}</p>
+                            <p class="line-clamp"><strong>Appointment status:</strong> {{ allAppointment.status }}</p>
                         </div>
                     </div>
                 </div>
@@ -177,6 +177,12 @@ const cancelAppointment = (appointmentId) => {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+}
+
+.line-clamp {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    white-space: pre-line;
 }
 
 .button {
