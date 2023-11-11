@@ -13,7 +13,8 @@ use App\Models\Doctors;
 use App\Models\Providers;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AppointmentConfirmation;
 class AppointmentController extends Controller
 {
     public function index()
@@ -88,6 +89,21 @@ class AppointmentController extends Controller
                 'status' => $request->status,
             ]);
         }
+        /* This block is used to get the appointment details for sending confirmation
+           email purpose, it should be commented as this unless you have configured
+           your mail settings correctly
+
+        $name = $request->name;
+        $doctorName = 'Dr. ' . $request->doctor_name;
+        $time = $request->appointment_time;
+        $address = $request->address;
+        $city = $request->city;
+        $state = $request->state;
+        $provider_name = $request->provider_name;
+        $type = $request->type;
+
+        Mail::to($request->email)->send(new AppointmentConfirmation($name, $doctorName, $time, $address, $city, $state, $provider_name, $type));
+        */
 
         // Redirect to a success page
         return redirect()->route('home')->with('success', 'Appointment booked successfully!');
