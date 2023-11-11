@@ -105,8 +105,13 @@ const bookAppointment = (doctorId, chosenDay, hospitalId, medicalCenterId, clini
         return;
     }
 
+    // Encode data using Base64 to send it with url
+    const encodedDoctorId = btoa(doctorId);
+    const encodedChosenDay = btoa(chosenDay);
+    const encodedProviderId = btoa(providerId);
+
     // Construct the appointment URL with doctorId, chosenDay, and the determined providerId
-    const appointmentUrl = `/book-appointment?doctorId=${doctorId}&chosenDay=${chosenDay}&${providerName}=${providerId}`;
+    const appointmentUrl = `/book-appointment?doctorId=${encodedDoctorId}&chosenDay=${encodedChosenDay}&${providerName}=${encodedProviderId}`;
 
     // Navigate to the appointment booking page using window.location.href
     window.location.href = appointmentUrl;

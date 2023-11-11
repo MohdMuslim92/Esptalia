@@ -14,6 +14,8 @@ class AppointmentController extends Controller
 {
     public function index()
     {
+        /* Function to display search results to book an appointment */
+
         $appointments = Appointments::orderBy('created_at', 'desc')
             ->join('patients', 'appointments.patient_id', '=', 'patients.id')
             ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
@@ -27,6 +29,8 @@ class AppointmentController extends Controller
 
     public function create(Request $request)
     {
+        /* Function to create a new appointment */
+
         if (auth()->check()) {
             // User is logged in, retrieve the user ID
             $userId = auth()->user()->id;
@@ -87,14 +91,18 @@ class AppointmentController extends Controller
 
     public function showAppointmentPage(Request $request)
     {
-        $doctorId = $request->query('doctorId');
-        $chosenDay = $request->query('chosenDay');
+        /* Function to display appointment details in the
+           appointment booking page */
+
+        // Decode URL parameters
+        $doctorId = base64_decode($request->query('doctorId'));
+        $chosenDay = base64_decode($request->query('chosenDay'));
         foreach ($request->query() as $key => $value) {
             // Check if the key ends with '_id'
             if (str_ends_with($key, '_id')) {
                 // Extract provider name from the key
                 $providerName = $key;
-                $providerId = $value;
+                $providerId = base64_decode($value);
                 break;
             }
         }
@@ -113,6 +121,8 @@ class AppointmentController extends Controller
 
     public function confirmAppointment(Appointments $appointment)
     {
+        /* Function to confirm appointment by changing the status
+           to confirmed in the appointments table */
         $appointment->status = 'confirmed';
         $appointment->save();
 
@@ -120,6 +130,8 @@ class AppointmentController extends Controller
 
     public function cancelAppointment(Appointments $appointment)
     {
+        /* Function to cancel appointment by changing the status
+           to canceled in the appointments table */
         $appointment->status = 'canceled';
         $appointment->save();
 
