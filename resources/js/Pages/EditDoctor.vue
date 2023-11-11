@@ -231,7 +231,7 @@ const submitForm = async () => {
 
                     <div class="form-field mt-4">
                         <InputLabel for="working_days" value="Working Days" />
-                        <div class="flex items-center space-x-4">
+                        <div class="form-field mt-4 md:flex md:items-center md:space-x-4">
                             <div v-for="(day, index) in form.working_days" :key="index">
                                 <input
                                     type="checkbox"
@@ -247,7 +247,7 @@ const submitForm = async () => {
 
                     <div class="form-field mt-4">
                         <InputLabel for="working_hours" value="Working Hours" />
-                        <div class="flex items-center space-x-4">
+                        <div class="form-field mt-4 md:flex md:items-center md:space-x-4">
                             <select v-model="form.working_hours_from" class="my-select">
                                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
                             </select>
@@ -259,19 +259,24 @@ const submitForm = async () => {
                         <InputError class="mt-2" :message="form.errors.working_hours" />
                     </div>
 
-                    <div class="form-field mt-4">
+                    <div class="mt-4">
                         <InputLabel for="availability" value="Availability" />
-                        <TextInput
-                            id="availability"
+                        <select
                             name="availability"
-                            type="text"
-                            class="mt-1 block w-full"
+                            id="availability"
+                            class="my-select"
                             v-model="form.availability"
-                            required />
+                            required>
+                            <option :value="form.availability" selected>{{ form.availability }}</option>
+                            <option v-if="form.availability !== 'Y'" value="Y">Y</option>
+                            <option v-if="form.availability !== 'N'" value="N">N</option>
+                        </select>
+
                         <InputError class="mt-2" :message="form.errors.availability" />
                     </div>
 
-                    <div class="mt-4 flex justify-around">
+
+                    <div class="form-field mt-4 md:flex md:items-center md:space-x-4">
                         <InputLabel for="male" value="Male" />
                         <input
                             id="male"
