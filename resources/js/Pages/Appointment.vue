@@ -19,16 +19,6 @@ const doctorSpecialization = ref(doctor.value.speciality);
 
 const email = ref('');
 
-const form = useForm({
-    name: '',
-    email: '',
-    phone_number: '',
-    doctor_id: doctorId,
-    provider_id: provider_id.value.id.toString(),
-    appointment_time: appointment_time,
-    status: 'booked',
-});
-
 watch(provider_id, (newProviderId) => {
     // Update the form's provider_id whenever provider_id changes
     form.provider_id = newProviderId;
@@ -48,6 +38,23 @@ if (provider_id.value.type === 'clinic')
 {
     type.value = 'Clinic'
 }
+
+const form = useForm({
+    name: '',
+    email: '',
+    phone_number: '',
+    doctor_name: doctorName,
+    provider_name: name,
+    address: address,
+    city: city,
+    state: state,
+    type: type,
+    doctor_id: doctorId,
+    provider_id: provider_id.value.id.toString(),
+    appointment_time: appointment_time,
+    status: 'booked',
+});
+
 
 onMounted(() => {
     console.log('Doctor Data:', doctor.value);
@@ -197,6 +204,83 @@ console.log(provider_id.value.user_id);
                         <InputError class="mt-2" :message="form.errors.appointment_time" />
                     </div>
 
+                    <div class="pt-4">
+                        <TextInput
+                            id="doctor_name"
+                            mame="doctor_name"
+                            type="hidden"
+                            class="mt-1 block w-full"
+                            v-model="form.doctor_name"
+                            required
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.doctor_name" />
+                    </div>
+
+                    <div class="pt-4">
+                        <TextInput
+                            id="type"
+                            mame="type"
+                            type="hidden"
+                            class="mt-1 block w-full"
+                            v-model="form.type"
+                            required
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.type" />
+                    </div>
+
+                    <div class="pt-4">
+                        <TextInput
+                            id="provider_name"
+                            mame="provider_name"
+                            type="hidden"
+                            class="mt-1 block w-full"
+                            v-model="form.provider_name"
+                            required
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.provider_name" />
+                    </div>
+
+                    <div class="pt-4">
+                        <TextInput
+                            id="address"
+                            mame="address"
+                            type="hidden"
+                            class="mt-1 block w-full"
+                            v-model="form.address"
+                            required
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.address" />
+                    </div>
+
+                    <div class="pt-4">
+                        <TextInput
+                            id="city"
+                            mame="city"
+                            type="hidden"
+                            class="mt-1 block w-full"
+                            v-model="form.city"
+                            required
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.city" />
+                    </div>
+
+                    <div class="pt-4">
+                        <TextInput
+                            id="state"
+                            mame="state"
+                            type="hidden"
+                            class="mt-1 block w-full"
+                            v-model="form.state"
+                            required
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.state" />
+                    </div>
 
                     <button type="submit"
                             class="bg-blue-500 hover:bg-blue-700
