@@ -124,6 +124,14 @@ Route::get('/api/appointments/booked', function () {
     return Inertia::render('BookedAppointments');
 })->middleware(['auth', 'verified'])->name('booked-appointments');
 
+// Appointments book success
+Route::get('/booking-success', function () {
+    $successMessage = 'Your appointment has been booked successfully. An email confirmation will be sent to your email address.';
+
+    return Inertia::render('successBooking', [
+        'successMessage' => $successMessage,
+    ]);
+})->name('booking-success');
 // Confirm appointment
 Route::patch('/api/appointments/confirm/{appointment}', [AppointmentController::class, 'confirmAppointment']);
 
