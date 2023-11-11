@@ -22,9 +22,9 @@ return new class extends Migration
             $table->timestamps();
 
             // Define foreign key constraints
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('set null');
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->foreign('provider_id')->references('id')->on('providers')->onDelete('cascade');
-            $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('set null');
+            $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
         });
 
     }
