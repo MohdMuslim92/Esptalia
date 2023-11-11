@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointments;
+use App\Models\Clinics;
+use App\Models\Hospitals;
+use App\Models\MedicalCenters;
 use App\Models\Patients;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Doctors;
 use App\Models\Providers;
@@ -106,9 +110,25 @@ class AppointmentController extends Controller
                 break;
             }
         }
+
         // Fetch doctor data based on the $doctorId from your database
         $doctor = Doctors::find($doctorId);
         $provider = Providers::where($providerName, $providerId)->first();
+
+        // Fetch users data based on user_id
+        $user = User::find($provider->user_id)->first();
+
+        // Fetch hospital, medical center or clinic data based on user_id
+        if ($provider->type == 'hospital')
+        {
+            $healthcareProvider = Hospitals::where('user_id', $provider->user_id)->first();
+        } elseif ($provider->type == 'medical_center')
+        {
+            $healthcareProvider = MedicalCenters::where('user_id', $provider->user_id)->first();
+        } else
+        {
+            $healthcareProvider = Clinics::where('user_id', $provider->user_id)->first();
+        }
 
         // Pass the doctor data, chosenDay, and providerId to the Appointment Inertia page
         return Inertia::render('Appointment', [
@@ -116,6 +136,8 @@ class AppointmentController extends Controller
             'appointment_time' => $chosenDay,
             'provider_type_id' => $providerId,
             'provider_id' => $provider,
+            'user' => $user,
+            'healthcareProvider' => $healthcareProvider,
         ]);
     }
 
