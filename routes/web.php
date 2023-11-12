@@ -126,7 +126,7 @@ Route::get('/api/appointments/booked', function () {
 
 // Appointments book success
 Route::get('/booking-success', function () {
-    $successMessage = 'Your appointment has been booked successfully. An email confirmation will be sent to your email address.';
+    $successMessage = 'Your appointment has been placed. Once approved an email confirmation will be sent to your email address.';
 
     return Inertia::render('successBooking', [
         'successMessage' => $successMessage,
