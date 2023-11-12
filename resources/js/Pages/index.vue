@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import ApplicationLogo from '../Components/ApplicationLogo.vue';
-import {  onMounted, ref, defineComponent } from 'vue';
+import {  onMounted, ref } from 'vue';
 import axios from 'axios';
 defineProps({
     canLogin: {
@@ -23,10 +23,12 @@ const isDropdownOpen = ref(false);
 const auth = ref('');
 const userRole = ref(null);
 
+// Function to open and close the dropdown menu
 function toggleDropdown() {
     isDropdownOpen.value = !isDropdownOpen.value;
 }
 
+// Event listener to to resize the menu responsivly
 window.addEventListener('resize', () => {
     isDropdownOpen.value = window.innerWidth <= 640;
 });
@@ -42,7 +44,7 @@ function displayText() {
     }
 }
 
-
+// Get the user type in order to display notifications in case of Healthcare Provider
 const getUserRole = () => {
     axios.get('/notifications')
         .then(response => {
