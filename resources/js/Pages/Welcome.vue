@@ -26,6 +26,11 @@ let textElement = '';
 const animatedText = ref('');
 let typingInterval;
 const resultContainer = ref(null);
+const notifications = ref([]);
+let user_role = ref('');
+const isDropdownOpen = ref(false);
+const auth = ref('');
+const userRole = ref(null);
 
 
 const searchDoctors = async () => {
@@ -129,6 +134,17 @@ const bookAppointment = (doctorId, chosenDay, hospitalId, medicalCenterId, clini
     // Navigate to the appointment booking page using window.location.href
     window.location.href = appointmentUrl;
 };
+
+// Function to open and close the dropdown menu
+function toggleDropdown() {
+    isDropdownOpen.value = !isDropdownOpen.value;
+}
+
+// Event listener to to resize the menu responsivly
+window.addEventListener('resize', () => {
+    isDropdownOpen.value = window.innerWidth <= 640;
+});
+
 // Function to display text with typewriter effect
 function displayText() {
     if (currentIndex < animationText.length) {
@@ -139,8 +155,21 @@ function displayText() {
         clearInterval(typingInterval);
     }
 }
+// Get the user type in order to display notifications in case of Healthcare Provider
+const getUserRole = () => {
+    axios.get('/notifications')
+        .then(response => {
+            user_role.value = response.data.user_role;
+            console.log(userRole.value);
+        })
+        .catch(error => {
+            console.error('Error fetching notifications:', error);
+        });
+};
+
 onMounted(() => {
     typingInterval = setInterval(displayText, 100); // Adjust typing speed (interval) as needed
+    getUserRole();
 });
 
 </script>
@@ -162,42 +191,104 @@ onMounted(() => {
 
         <div class="flex absolute top-0 right-0 transform   sm:mr-10 sm:mt-0">
             <div v-if="canLogin" class="sm:top-0 sm:right-0 p-6 text-right">
-                <Link
-                    v-if="$page.props.auth.user"
-                    :href="route('dashboard')"
-                    class="link link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
-                dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                >Dashboard</Link
-                >
-
-
-                <template v-else>
+                <div v-if="$page.props.auth.user">
                     <Link
-                        :href="route('About')"
+                        v-if="user_role === 'healthcare_provider'"
+                        :href="route('healthcare.dashboard')"
                         class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
-                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >About</Link
+                dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                    >Provider Dashboard</Link
                     >
+                    <Link
+                        v-else
+                        :href="route('dashboard')"
+                        class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                    >Dashboard</Link
+                    >
+                </div>
 
-                    <Link
-                        :href="route('Contact')"
-                        class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                <!-- Navigation (Desktop) -->
+                <template v-else>
+                    <div class="hidden sm:flex sm:items-center ">
+                        <Link
+                            :href="route('home')"
+                            class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
                     dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Contact Us</Link
-                    >
-                    <Link
-                        :href="route('login')"
-                        class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
-                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Log in</Link
-                    >
+                        >Home</Link
+                        >
 
-                    <Link
-                        v-if="canRegister"
-                        :href="route('register')"
-                        class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Register</Link
-                    >
+                        <Link
+                            :href="route('About')"
+                            class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                        >About</Link
+                        >
+
+                        <Link
+                            :href="route('Contact')"
+                            class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                        >Contact Us</Link
+                        >
+                        <Link
+                            :href="route('login')"
+                            class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                        >Log in</Link
+                        >
+
+                        <Link
+                            v-if="canRegister"
+                            :href="route('register')"
+                            class="link ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                        >Register</Link
+                        >
+                    </div>
+                    <!-- Dropdown menu for smaller screens -->
+                    <div class="sm:hidden absolute top-0 right-0 mt-5 mr-5">
+                        <div class=" pt-2 dropdown" :class="{ open: isDropdownOpen }">
+                            <button @click="toggleDropdown" class="flex dropdown-toggle">
+                                <p class="menu-icon pr-2">&#9776; </p>
+                                Menu</button>
+                            <div v-if="isDropdownOpen" class="dropdown-menu">
+                                <Link
+                                    :href="route('home')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >Home</Link
+                                >
+
+                                <Link
+                                    :href="route('About')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >About</Link
+                                >
+
+                                <Link
+                                    :href="route('Contact')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >Contact Us</Link
+                                >
+                                <Link
+                                    :href="route('login')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >Log in</Link
+                                >
+
+                                <Link
+                                    v-if="canRegister"
+                                    :href="route('register')"
+                                    class="link font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400
+                                    dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                                >Register</Link
+                                >
+                            </div>
+                        </div>
+                    </div>
                 </template>
             </div>
 
@@ -205,6 +296,7 @@ onMounted(() => {
         <div class="animated-text absolute inset-0 flex justify-center items-center">
             <p class="text-white text-3xl font-bold">{{ animatedText }}</p>
         </div>
+
 
     </div>
     <div class="py-12">
@@ -323,7 +415,38 @@ onMounted(() => {
     background-repeat: no-repeat; /* Prevent the background from repeating */
     height: 75vh; /* Set the height of the wrapper to fill the viewport */
     display: flex;
-    width: 100%;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.dropdown-menu {
+    display: block;
+    padding: 10px 0; /* Add padding to the dropdown menu */
+    margin-top: 5px; /* Add margin to separate the dropdown menu from the toggle button */
+}
+
+.dropdown-menu .link {
+    text-align: left;
+    display: block;
+    white-space: nowrap; /* Prevent line breaks within the link */
+    padding-top: 4px; /* Add padding to the links inside the dropdown */
+    color: #333; /* Set the text color */
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.dropdown-menu .link:hover {
+    background-color: #f7f7f7; /* Change the background color on hover */
 }
 
 .animated-text {
@@ -350,18 +473,5 @@ onMounted(() => {
 
 .text-center {
     text-align: center;
-}
-@media screen and (max-width: 640px) {
-    .background-wrapper {
-        height: 100vh;
-    }
-
-    .animated-text {
-        margin-top: 2em;
-        height: 2em;
-        font-size: 1.5em;
-    }
-
-    /* Add more responsive styles as needed */
 }
 </style>
