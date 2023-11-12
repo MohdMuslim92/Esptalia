@@ -89,27 +89,9 @@ class AppointmentController extends Controller
                 'status' => $request->status,
             ]);
         }
-        /* This block is used to get the appointment details for sending confirmation
-           email purpose, it should be commented as this unless you have configured
-           your mail settings correctly
-
-        $name = $request->name;
-        $doctorName = 'Dr. ' . $request->doctor_name;
-        $time = $request->appointment_time;
-        $address = $request->address;
-        $city = $request->city;
-        $state = $request->state;
-        $provider_name = $request->provider_name;
-        $type = $request->type;
-
-        Mail::to($request->email)->send(new AppointmentConfirmation($name, $doctorName, $time, $address, $city, $state, $provider_name, $type));
-        */
-
-        // Customize the success message
-        $successMessage = 'Your appointment has been booked successfully. An email confirmation will be sent to your email address.';
 
         // Redirect to a success page
-        return redirect()->route('booking-success')->with('success', $successMessage);
+        return redirect()->route('booking-success');
     }
 
     public function showAppointmentPage(Request $request)
@@ -165,7 +147,44 @@ class AppointmentController extends Controller
         /* Function to confirm appointment by changing the status
            to confirmed in the appointments table */
         $appointment->status = 'confirmed';
-        $appointment->save();
+        if ($appointment->save())
+        {
+            /* This block is used to get the appointment details for sending confirmation
+            email purpose, it should be commented as this unless you have configured
+            your mail settings correctly
+
+            // Get relevant details to send the confirmation email
+            $appointmentDetails = Appointments::find($appointment->id);
+            $providerDetails = Providers::where('id', $appointmentDetails->provider_id)->first();
+            $userDetails = User::where('id', $providerDetails->user_id)->first();
+            $patientDetails = Patients::where('id', $appointmentDetails->patient_id)->first();
+            $doctorDetails = Doctors::where('id', $appointmentDetails->doctor_id)->first();
+            if ($providerDetails->hospital_id)
+            {
+                $healthcareProvider = Hospitals::where('user_id', $userDetails->id)->first();
+            } elseif ($providerDetails->medical_center_id)
+            {
+                $healthcareProvider = MedicalCenters::where('user_id', $userDetails->id)->first();
+            } else
+            {
+                $healthcareProvider = Clinics::where('user_id', $userDetails->id)->first();
+            }
+
+            $name = $patientDetails->name;
+            $doctorName = 'Dr. ' . $doctorDetails->first_name . ' ' . $doctorDetails->lastname;
+            $time = $appointmentDetails->appointment_time;
+            $address = $userDetails->address;
+            $city = $healthcareProvider->city;
+            $state = $healthcareProvider->state;
+            $provider_name = $userDetails->name;
+            $email = $patientDetails->email;
+            $type = $providerDetails->type;
+
+            Mail::to($email)->send(new AppointmentConfirmation($name, $doctorName, $time, $address, $city, $state, $provider_name, $type));
+            */
+
+            }
+
 
     }
 
