@@ -157,25 +157,39 @@ class DoctorsController extends Controller
                 });
             }
 
-            // Retrieve the list of doctors based on the search criteria
-            $doctorsList = $query->with('locations')->get();
+            // Retrieve the list of doctors based on the search criteria with eager loading
+            $doctorsList = $query->with(['locations.hospital.user', 'locations.medicalCenter.user', 'locations.clinic.user'])->get();
 
             // Modify the response data to include hospital_id, medical_center_id, or clinic_id
             $modifiedDoctorsList = $doctorsList->map(function ($doctor) {
                 $locations = $doctor->locations->first();
 
-                // Include the associated IDs in the response
+                // Determine the appropriate model based on the available ID
+                $locationModel = null;
+                if ($locations->hospital_id) {
+                    $locationModel = $locations->hospital;
+                    $type = 'Hospital';
+                } elseif ($locations->medical_center_id) {
+                    $locationModel = $locations->medicalCenter;
+                    $type = 'Medical Center';
+                } elseif ($locations->clinic_id) {
+                    $locationModel = $locations->clinic;
+                    $type = 'Clinic';
+                }
+
+                // Include the associated IDs and additional information in the response
                 return [
                     'id' => $doctor->id,
                     'first_name' => $doctor->first_name,
                     'last_name' => $doctor->last_name,
                     'speciality' => $doctor->speciality,
-                    'city' => $locations->city,
-                    'state' => $locations->state,
-                    'hospital_id' => $locations->hospital_id,
-                    'medical_center_id' => $locations->medical_center_id,
-                    'clinic_id' => $locations->clinic_id,
-                ];
+                    'city' => optional($locationModel)->city,
+                    'state' => optional($locationModel)->state,
+                    'user_id' => optional($locationModel)->user_id,
+                    'user_name' => optional(optional($locationModel)->user)->name,
+                    'user_address' => optional(optional($locationModel)->user)->address,
+                    'type' => $type,
+                    ];
             });
 
             // Return the modified list of doctors based on the search criteria
