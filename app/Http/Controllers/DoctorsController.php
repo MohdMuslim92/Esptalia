@@ -189,6 +189,9 @@ class DoctorsController extends Controller
                     'user_name' => optional(optional($locationModel)->user)->name,
                     'user_address' => optional(optional($locationModel)->user)->address,
                     'type' => $type,
+                    'hospital_id' => $locations->hospital_id ?? null,
+                    'medical_center_id' => $locations->medical_center_id ?? null,
+                    'clinic_id' => $locations->clinic_id ?? null,
                     ];
             });
 
