@@ -207,48 +207,35 @@ onMounted(() => {
             <h2 class="text-3xl font-semibold mb-6 text-center">Key Features</h2>
 
             <!-- Feature 1: Online Appointment Booking -->
-            <div class="flex items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
-                <div class="flex-shrink-0">
-                    <img src="../../img/feature1.png" alt="Online Appointment Booking"
-                         class="h-60 w-60 object-contain rounded-2xl">
-                </div>
+            <div class="flex flex-col-reverse sm:flex-row items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
                 <div class="ml-6">
                     <h3 class="text-xl font-semibold text-indigo-600 mb-2">Online Appointment Booking</h3>
-                    <p class="text-gray-700">Esptalia allows users to conveniently book medical appointments online.
-                        With just a few clicks, users can choose their preferred doctors, select suitable time slots,
-                        and receive instant confirmation. Say goodbye to long waiting times and enjoy hassle-free scheduling
-                        from the comfort of your home.</p>
+                    <p class="text-gray-700">Esptalia allows users to conveniently book medical appointments online. With just a few clicks, users can choose their preferred doctors, select suitable time slots, and receive instant confirmation. Say goodbye to long waiting times and enjoy hassle-free scheduling from the comfort of your home.</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <img src="../../img/feature1.png" alt="Online Appointment Booking" class="h-60 w-60 object-contain rounded-2xl">
                 </div>
             </div>
 
             <!-- Feature 2: Comprehensive Health Records -->
-            <div class="flex items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
-                <div class="flex-shrink-0">
-                    <img src="../../img/feature2.png" alt="Comprehensive Health Records"
-                         class="h-60 w-60 object-contain rounded-2xl">
-                </div>
+            <div class="flex flex-col-reverse sm:flex-row items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
                 <div class="ml-6">
                     <h3 class="text-xl font-semibold text-indigo-600 mb-2">Comprehensive Health Records</h3>
-                    <p class="text-gray-700">Esptalia provides a secure repository for all your health-related information.
-                        Access your comprehensive health records anytime, anywhere. Keep track of medical history,
-                        prescriptions, lab results, and more in one convenient location. Empower yourself with knowledge,
-                        making informed decisions about your healthcare journey.</p>
+                    <p class="text-gray-700">Esptalia provides a secure repository for all your health-related information. Access your comprehensive health records anytime, anywhere. Keep track of medical history, prescriptions, lab results, and more in one convenient location. Empower yourself with knowledge, making informed decisions about your healthcare journey.</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <img src="../../img/feature2.png" alt="Comprehensive Health Records" class="h-60 w-60 object-contain rounded-2xl">
                 </div>
             </div>
 
             <!-- Feature 3: Healthcare Provider Dashboard -->
-            <div class="flex items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
-                <div class="flex-shrink-0">
-                    <img src="../../img/feature3.png" alt="Healthcare Provider Dashboard"
-                         class="h-60 w-60 object-contain rounded-2xl">
-                </div>
+            <div class="flex flex-col-reverse sm:flex-row items-center mb-12 p-6 rounded-lg shadow-lg bg-white feature-card">
                 <div class="ml-6">
                     <h3 class="text-xl font-semibold text-indigo-600 mb-2">Healthcare Provider Dashboard</h3>
-                    <p class="text-gray-700">Esptalia offers a user-friendly dashboard for healthcare providers.
-                        Easily manage your appointments, access patient medical histories securely, and update your
-                        personal information and availability at your convenience. Streamline your practice by efficiently
-                        organizing your schedule and patient interactions, ensuring a seamless experience for both healthcare
-                        providers and patients.</p>
+                    <p class="text-gray-700">Esptalia offers a user-friendly dashboard for healthcare providers. Easily manage your appointments, access patient medical histories securely, and update your personal information and availability at your convenience. Streamline your practice by efficiently organizing your schedule and patient interactions, ensuring a seamless experience for both healthcare providers and patients.</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <img src="../../img/feature3.png" alt="Healthcare Provider Dashboard" class="h-60 w-60 object-contain rounded-2xl">
                 </div>
             </div>
         </div>
