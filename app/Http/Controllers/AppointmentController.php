@@ -105,8 +105,11 @@ class AppointmentController extends Controller
         Mail::to($request->email)->send(new AppointmentConfirmation($name, $doctorName, $time, $address, $city, $state, $provider_name, $type));
         */
 
+        // Customize the success message
+        $successMessage = 'Your appointment has been booked successfully. An email confirmation will be sent to your email address.';
+
         // Redirect to a success page
-        return redirect()->route('home')->with('success', 'Appointment booked successfully!');
+        return redirect()->route('booking-success')->with('success', $successMessage);
     }
 
     public function showAppointmentPage(Request $request)
