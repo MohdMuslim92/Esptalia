@@ -13,19 +13,11 @@ defineProps({
     },
 });
 
-const selectedSpecialization = ref('');
-const selectedState = ref('');
-const selectedCity = ref('');
-const doctorName = ref('');
-const doctorsList = ref([]); // Variable to store the list of doctors
-const searchPerformed = ref(false); // Flag to indicate if the search has been performed
-const dayAfterTomorrowDate = ref('');
 const animationText = 'Revolutionizing Health, Empowering Lives';
 let currentIndex = 0;
 let textElement = '';
 const animatedText = ref('');
 let typingInterval;
-const resultContainer = ref(null);
 const notifications = ref([]);
 let user_role = ref('');
 const isDropdownOpen = ref(false);
@@ -33,107 +25,6 @@ const auth = ref('');
 const userRole = ref(null);
 
 
-const searchDoctors = async () => {
-    try {
-        // Perform API call to fetch doctors based on user's selections
-        const response = await axios.get('/api/doctors/search', {
-            params: {
-                specialization: selectedSpecialization.value,
-                state: selectedState.value,
-                city: selectedCity.value,
-                name: doctorName.value
-            }
-        });
-        // Update the doctorsList variable with the API response
-        doctorsList.value = response.data;
-
-        // Set searchPerformed flag based on whether doctors are found or not
-        searchPerformed.value = doctorsList.value.length > 0;
-
-        console.log('List of doctors:', doctorsList.value);
-    } catch (error) {
-        console.error('Error fetching doctors:', error);
-        // Set searchPerformed to false in case of error
-        searchPerformed.value = false;
-    }
-    if (searchPerformed.value) {
-        const offset = 20; // Adjust this value as needed
-        const topPosition = resultContainer.value.offsetTop - offset;
-
-        // Use window.requestAnimationFrame to ensure smooth scrolling
-        const scrollAnimation = () => {
-            window.scroll(0, topPosition);
-        };
-
-        // Use requestAnimationFrame for smooth scrolling
-        window.requestAnimationFrame(scrollAnimation);
-    }
-};
-// Compute the value of dayAfterTomorrowDate based on the current date
-const computeDayAfterTomorrowDate = () => {
-    const today = new Date();
-    const dayAfterTomorrow = new Date(today);
-    dayAfterTomorrow.setDate(today.getDate() + 2);
-
-    // Format the date as "DD/MM/YYYY"
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const dayOfWeek = daysOfWeek[dayAfterTomorrow.getDay()];
-    const dd = String(dayAfterTomorrow.getDate()).padStart(2, '0');
-    const mm = String(dayAfterTomorrow.getMonth() + 1).padStart(2, '0'); // January is 0!
-    const yyyy = dayAfterTomorrow.getFullYear();
-
-    return `${dayOfWeek} ${dd}/${mm}`;
-};
-// Update the dayAfterTomorrowDate value using the computed property
-dayAfterTomorrowDate.value = computeDayAfterTomorrowDate();
-
-function formatDate(date) {
-    const dd = String(date.getDate()).padStart(2, '0');
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const yyyy = date.getFullYear();
-    return `${yyyy}-${mm}-${dd}`;
-}
-
-const today = new Date();
-const tomorrow = new Date(today);
-tomorrow.setDate(today.getDate() + 1);
-const afterTomorrow = new Date(today);
-afterTomorrow.setDate(today.getDate() + 2);
-
-const todayDate = formatDate(today);
-const tomorrowDate = formatDate(tomorrow);
-const afterTomorrowDate = formatDate(afterTomorrow);
-
-const bookAppointment = (doctorId, chosenDay, hospitalId, medicalCenterId, clinicId) => {
-    // Determine which providerId is available
-    let providerId;
-    let providerName;
-    if (hospitalId) {
-        providerName = 'hospital_id';
-        providerId = hospitalId;
-    } else if (medicalCenterId) {
-        providerName = 'medical_center_id';
-        providerId = medicalCenterId;
-    } else if (clinicId) {
-        providerName = 'clinic_id';
-        providerId = clinicId;
-    } else {
-        // Handle the case where none of the providerIds are available
-        console.error('No valid providerId found.');
-        return;
-    }
-
-    // Encode data using Base64 to send it with url
-    const encodedDoctorId = btoa(doctorId);
-    const encodedChosenDay = btoa(chosenDay);
-    const encodedProviderId = btoa(providerId);
-
-    // Construct the appointment URL with doctorId, chosenDay, and the determined providerId
-    const appointmentUrl = `/book-appointment?doctorId=${encodedDoctorId}&chosenDay=${encodedChosenDay}&${providerName}=${encodedProviderId}`;
-
-    // Navigate to the appointment booking page using window.location.href
-    window.location.href = appointmentUrl;
-};
 
 // Function to open and close the dropdown menu
 function toggleDropdown() {
@@ -175,7 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="About" />
     <div class="background-wrapper">
         <div class="pb-5 absolute left-5">
             <!-- Logo -->
@@ -300,99 +191,69 @@ onMounted(() => {
 
     </div>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 flex
-                        flex-wrap gap-4 justify-center space-x-4">
-                <div class="mb-4 flex-grow">
-                    <label for="specialization" class="block text-sm font-medium text-gray-600">Specialization:</label>
-                    <select v-model="selectedSpecialization" id="specialization" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
-                        <option value="General">General</option>
-                        <option value="Eye">Eye</option>
-                        <option value="ENT">ENT</option>
-                    </select>
+        <div class="about-section bg-gradient-to-b from-purple-700 via-pink-500 to-indigo-900 py-16 text-white">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-extrabold mb-8 text-yellow-300">About Esptalia</h2>
+                <p class="text-gray-300 mb-12 leading-loose">
+                    Esptalia is a groundbreaking initiative born out of a profound concern for the challenges prevalent in Sudan's healthcare system. We recognized the need for transformative solutions to address issues such as long queues, uncertain doctor schedules, and cumbersome administrative processes in hospitals and health centers.
+
+                    Our mission is to revolutionize Sudan's healthcare landscape by introducing digital innovations that empower lives. We understand the frustrations of patients and healthcare providers and are dedicated to creating a seamless, efficient, and accessible healthcare experience for all.
+
+                    With a vision that extends beyond just a digital platform, Esptalia embodies a transformation in how healthcare is accessed and delivered in Sudan. We are committed to making a real difference by providing a holistic solution to the existing challenges.
+
+                    <br><br>
+
+                    At Esptalia, we believe in community engagement and grassroots involvement. Our approach includes:
+                </p>
+
+                <!-- Engagement Strategies -->
+                <div class="flex flex-wrap justify-center mb-12">
+                    <div class="strategy mx-6 mb-8 transform hover:scale-110 duration-300 ease-in-out">
+                        <img src="../../img/engage.png" alt="Engage Local Influencers" class="w-40 h-40 mb-4 mx-auto rounded-full">
+                        <h3 class="text-lg font-extrabold mb-2 text-yellow-300">Engage Local Influencers</h3>
+                        <p class="text-gray-300">We collaborate with influential local personalities and community leaders on social media platforms. By leveraging their reach and credibility, we spread awareness about the platform's benefits, addressing common misconceptions and fears.</p>
+                    </div>
+                    <div class="strategy mx-6 mb-8 transform hover:scale-110 duration-300 ease-in-out">
+                        <img src="../../img/partnership.png" alt="Partnerships with Local Initiatives" class="w-40 h-40 mb-4 mx-auto rounded-full">
+                        <h3 class="text-lg font-extrabold mb-2 text-yellow-300">Partnerships with Local Initiatives</h3>
+                        <p class="text-gray-300">We forge partnerships with local charity organizations and initiatives. These entities often enjoy trust within communities and play a crucial role in educating citizens about the platform's ease of use and advantages.</p>
+                    </div>
                 </div>
 
-                <div class="mb-4 flex-grow">
-                    <label for="state" class="block text-sm font-medium text-gray-600">State:</label>
-                    <select v-model="selectedState" id="state" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
-                        <option value="Gezira">Gezira</option>
-                    </select>
+                <!-- Portfolio Project Information -->
+                <p class="text-gray-300 mb-6">
+                    Esptalia is also a portfolio project for Holberton School, a prestigious institution dedicated to nurturing talent in the field of technology and software development. This project showcases our skills, dedication, and passion for making a difference in the world through innovative solutions.
+                </p>
+                <p class="text-gray-300">
+                    To learn more about Holberton School and their programs, please visit
+                    <a href="https://www.holbertonschool.com/"
+                       class="text-pink-400 hover:underline" target="_blank">Holberton School</a>.
+                </p>
+
+                <!-- Team Members -->
+                <div class="flex flex-wrap justify-center mb-12 pt-8">
+                    <div class="team-member mx-6 mb-8 text-center">
+                        <img src="../../img/linkedin.png" alt="LinkedIn Profile" class="w-16 h-16 mx-auto mb-4">
+                        <a href="https://www.linkedin.com/in/mohdmuslim92/" target="_blank" class="text-blue-500 block mt-2 text-lg font-semibold hover:underline">LinkedIn</a>
+                    </div>
+                    <div class="team-member mx-6 mb-8 text-center">
+                        <img src="../../img/github.png" alt="GitHub Profile" class="w-16 h-16 mx-auto mb-4">
+                        <a href="https://github.com/MohdMuslim92/" target="_blank" class="text-gray-800 block mt-2 text-lg font-semibold hover:underline">GitHub</a>
+                    </div>
+                    <div class="team-member mx-6 mb-8 text-center">
+                        <img src="../../img/twitter.png" alt="Twitter Profile" class="w-16 h-16 mx-auto mb-4">
+                        <a href="https://twitter.com/MohdMuslim92" target="_blank" class="text-blue-400 block mt-2 text-lg font-semibold hover:underline">Twitter</a>
+                    </div>
                 </div>
 
-                <div class="mb-4 flex-grow">
-                    <label for="city" class="block text-sm font-medium text-gray-600">City:</label>
-                    <select v-model="selectedCity" id="city" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
-                        <option value="Madani">Madani</option>
-                        <option value="Rufaa">Rufaa</option>
-                        <option value="Kamleen">Kamleen</option>
-                    </select>
+                <!-- Project Repository Link -->
+                <div class="mb-12 text-center">
+                    <p class="text-white mb-4 text-lg">Explore our project on GitHub:</p>
+                    <a href="https://github.com/MohdMuslim92/Esptalia" target="_blank" class="text-blue-500 font-bold text-lg hover:underline">Esptalia GitHub Repository</a>
                 </div>
-
-                <div class="mb-4 flex-grow">
-                    <label for="doctorName" class="block text-sm font-medium text-gray-600"> . </label>
-                    <input v-model="doctorName" id="doctorName" type="text" placeholder="or enter doctor's name" class="mt-1 p-2 border border-gray-300 rounded-md w-full" />
-                </div>
-
-                <button @click="searchDoctors" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded-md transition duration-300 ease-in-out">
-                    Search Doctors
-                </button>
             </div>
         </div>
-        <div ref="resultContainer"  class="container mx-auto mt-4 px-4">
-            <div v-if="doctorsList.length > 0" class="flex flex-col pt-6">
-                <!-- Content for doctorsList (left side) -->
-                <div class="flex-grow mb-4">
-                    <h2 class="text-2xl font-semibold mb-4">Search Results:</h2>
-                    <ul>
-                        <li class="pt-4 flex flex-col sm:flex-row" v-for="doctor in doctorsList" :key="doctor.id">
-                            <div class="doctor-details mb-4 sm:pt-0 sm:pr-4 sm:w-3/4">
-                                <h3 class="text-xl font-semibold">Dr. {{ doctor.first_name }} {{ doctor.last_name }}</h3>
-                                <p>Specialization: {{ doctor.speciality }}</p>
-                                <p>{{ doctor.user_name }} {{ doctor.type }}</p>
-                                <p>{{ doctor.user_address }}</p>
-                                <p>{{ doctor.city }}, {{ doctor.state }}</p>
-                            </div>
-                            <!-- Right sidebar for appointments -->
-                            <div class="appointments-details w-full sm:w-1/4 p-4 border-t sm:border-t-0 sm:border-l">
-                                <div class="mb-6">
-                                    <div class="flex flex-col space-y-4">
-                                        <div class="flex justify-between">
-                                            <div class="column">
-                                                <p class="border-b-2 bg-blue-800 text-center text-white">Today</p>
-                                                <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
-                                                <button @click="bookAppointment(doctor.id, todayDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
-                                                        class="mt-4 bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700 mx-auto flex justify-center items-center">
-                                                    Book
-                                                </button>
-                                            </div>
-                                            <div class="column">
-                                                <p class="border-b-2 bg-blue-800 text-center text-white">Tomorrow</p>
-                                                <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
-                                                <button @click="bookAppointment(doctor.id, tomorrowDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
-                                                        class="mt-4 bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700 mx-auto flex justify-center items-center">
-                                                    Book
-                                                </button>
-                                            </div>
-                                            <div class="column">
-                                                <p class="border-b-2 bg-blue-800 text-center text-white">{{ dayAfterTomorrowDate }}</p>
-                                                <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
-                                                <button @click="bookAppointment(doctor.id, afterTomorrowDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
-                                                        class="mt-4 bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700 mx-auto flex justify-center items-center">
-                                                    Book
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div v-else-if="searchPerformed">
-                <p class="text-center">No doctors found matching your search criteria.</p>
-            </div>
-        </div>
+
     </div>
 </template>
 
@@ -461,17 +322,5 @@ onMounted(() => {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-}
-
-.doctor-details {
-    flex-basis: 75%; /* Adjust the width of the doctor details */
-}
-
-.appointments-details {
-    flex-basis: 25%; /* Adjust the width of the appointment details */
-}
-
-.text-center {
-    text-align: center;
 }
 </style>
