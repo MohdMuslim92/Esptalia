@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\MedicalCenterController;
 use App\Http\Controllers\Auth\RegisteredProvidersController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProviderProfileController;
 use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\AddDoctorController;
@@ -56,8 +57,14 @@ Route::get('/Healthcare-Provider', function () {
     return Inertia::render('HealthcareDashboard');
 })->middleware(['auth', 'verified'])->name('healthcare.dashboard');
 
-Route::get('About', [AuthenticatedSessionController::class, 'create'])
-    ->name('About');
+Route::get('/About', function () {
+    return Inertia::render('About', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->name('About');
 
 Route::get('Contact', [AuthenticatedSessionController::class, 'create'])
     ->name('Contact');
