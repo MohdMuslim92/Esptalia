@@ -66,7 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="About" />
+    <Head title="Contact Us" />
     <div class="background-wrapper">
         <div class="pb-5 absolute left-5">
             <!-- Logo -->
@@ -191,66 +191,62 @@ onMounted(() => {
 
     </div>
     <div class="py-12">
-        <div class="about-section bg-gradient-to-b from-purple-700 via-pink-500 to-indigo-900 py-16 text-white">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl font-extrabold mb-8 text-yellow-300">About Esptalia</h2>
-                <p class="text-gray-300 mb-12 leading-loose">
-                    Esptalia is a groundbreaking initiative born out of a profound concern for the challenges prevalent in Sudan's healthcare system. We recognized the need for transformative solutions to address issues such as long queues, uncertain doctor schedules, and cumbersome administrative processes in hospitals and health centers.
+        <!-- Contact Section -->
+        <div class="mt-24 container mx-auto my-16 flex items-center justify-center">
+            <div class="bg-gray-900 p-8 rounded-md shadow-md w-full lg:w-2/5">
+                <h2 class="text-4xl font-bold mb-8 text-center text-black">Get in Touch</h2>
 
-                    Our mission is to revolutionize Sudan's healthcare landscape by introducing digital innovations that empower lives. We understand the frustrations of patients and healthcare providers and are dedicated to creating a seamless, efficient, and accessible healthcare experience for all.
-
-                    With a vision that extends beyond just a digital platform, Esptalia embodies a transformation in how healthcare is accessed and delivered in Sudan. We are committed to making a real difference by providing a holistic solution to the existing challenges.
-
-                    <br><br>
-
-                    At Esptalia, we believe in community engagement and grassroots involvement. Our approach includes:
-                </p>
-
-                <!-- Engagement Strategies -->
-                <div class="flex flex-wrap justify-center mb-12">
-                    <div class="strategy mx-6 mb-8 transform hover:scale-110 duration-300 ease-in-out">
-                        <img src="../../img/engage.png" alt="Engage Local Influencers" class="w-40 h-40 mb-4 mx-auto rounded-full">
-                        <h3 class="text-lg font-extrabold mb-2 text-yellow-300">Engage Local Influencers</h3>
-                        <p class="text-gray-300">We collaborate with influential local personalities and community leaders on social media platforms. By leveraging their reach and credibility, we spread awareness about the platform's benefits, addressing common misconceptions and fears.</p>
+                <!-- Contact Form -->
+                <form class="contact-form">
+                    <div class="mb-4">
+                        <label for="name" class="text-black mb-2">Your Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="w-full lg:w-60 bg-gray-800 rounded-md p-2 text-white"
+                        />
                     </div>
-                    <div class="strategy mx-6 mb-8 transform hover:scale-110 duration-300 ease-in-out">
-                        <img src="../../img/partnership.png" alt="Partnerships with Local Initiatives" class="w-40 h-40 mb-4 mx-auto rounded-full">
-                        <h3 class="text-lg font-extrabold mb-2 text-yellow-300">Partnerships with Local Initiatives</h3>
-                        <p class="text-gray-300">We forge partnerships with local charity organizations and initiatives. These entities often enjoy trust within communities and play a crucial role in educating citizens about the platform's ease of use and advantages.</p>
-                    </div>
-                </div>
 
-                <!-- Portfolio Project Information -->
-                <p class="text-gray-300 mb-6">
-                    Esptalia is also a portfolio project for Holberton School, a prestigious institution dedicated to nurturing talent in the field of technology and software development. This project showcases our skills, dedication, and passion for making a difference in the world through innovative solutions.
-                </p>
-                <p class="text-gray-300">
-                    To learn more about Holberton School and their programs, please visit
-                    <a href="https://www.holbertonschool.com/"
-                       class="text-pink-400 hover:underline" target="_blank">Holberton School</a>.
-                </p>
+                    <div class="mb-4">
+                        <label for="email" class="text-black block mb-2">Your Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="w-full lg:w-60 bg-gray-800 rounded-md p-2 text-white"
+                            placeholder="name@example.com"
+                        />
+                    </div>
 
-                <!-- Team Members -->
-                <div class="flex flex-wrap justify-center mb-12 pt-8">
-                    <div class="team-member mx-6 mb-8 text-center">
-                        <img src="../../img/linkedin.png" alt="LinkedIn Profile" class="w-16 h-16 mx-auto mb-4">
-                        <a href="https://www.linkedin.com/in/mohdmuslim92/" target="_blank" class="text-blue-500 block mt-2 text-lg font-semibold hover:underline">LinkedIn</a>
+                    <div class="mb-4">
+                        <label for="phone" class="text-black block mb-2">Your Phone Number</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            class="w-full lg:w-60 bg-gray-800 rounded-md p-2 text-white"
+                        />
                     </div>
-                    <div class="team-member mx-6 mb-8 text-center">
-                        <img src="../../img/github.png" alt="GitHub Profile" class="w-16 h-16 mx-auto mb-4">
-                        <a href="https://github.com/MohdMuslim92/" target="_blank" class="text-gray-800 block mt-2 text-lg font-semibold hover:underline">GitHub</a>
-                    </div>
-                    <div class="team-member mx-6 mb-8 text-center">
-                        <img src="../../img/twitter.png" alt="Twitter Profile" class="w-16 h-16 mx-auto mb-4">
-                        <a href="https://twitter.com/MohdMuslim92" target="_blank" class="text-blue-400 block mt-2 text-lg font-semibold hover:underline">Twitter</a>
-                    </div>
-                </div>
 
-                <!-- Project Repository Link -->
-                <div class="mb-12 text-center">
-                    <p class="text-white mb-4 text-lg">Explore our project on GitHub:</p>
-                    <a href="https://github.com/MohdMuslim92/Esptalia" target="_blank" class="text-blue-500 font-bold text-lg hover:underline">Esptalia GitHub Repository</a>
-                </div>
+                    <div class="mb-6">
+                        <label for="message" class="text-black block mb-2">Your Message</label>
+                        <textarea
+                            id="message"
+                            name="message"
+                            rows="4"
+                            class="w-full lg:w-60 bg-gray-800 rounded-md p-2 text-white"
+                            placeholder="Write your message here..."
+                        ></textarea>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+                    >
+                        Send Message
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -318,9 +314,28 @@ onMounted(() => {
     font-weight: bolder;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+/* Center the contact form */
+.contact-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust the height as needed */
+}
+
+/* Style for the contact form */
+.contact-form {
+    width: 60%; /* Adjust the width as needed */
+    max-width: 400px; /* Set a maximum width if desired */
+    padding: 20px;
+    border: 2px solid #ddd; /* Add a border */
+    border-radius: 10px; /* Add rounded corners */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+/* Increase the height of form fields */
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form input[type="tel"] {
+    height: 2.5rem; /* Adjust the height as needed */
 }
 </style>
