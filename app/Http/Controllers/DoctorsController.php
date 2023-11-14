@@ -146,17 +146,35 @@ class DoctorsController extends Controller
             // Apply state and city filters if provided
             if ($state && $city) {
                 $query->whereHas('locations', function ($query) use ($state, $city) {
-                    // ... (your existing location filters)
+                    $query->whereHas('hospital', function ($query) use ($state, $city) {
+                        $query->where('state', $state)->where('city', $city);
+                    })->orWhereHas('medicalCenter', function ($query) use ($state, $city) {
+                        $query->where('state', $state)->where('city', $city);
+                    })->orWhereHas('clinic', function ($query) use ($state, $city) {
+                        $query->where('state', $state)->where('city', $city);
+                    });
                 });
             } elseif ($state) {
                 $query->whereHas('locations', function ($query) use ($state) {
-                    // ... (your existing location filters)
+                    $query->whereHas('hospital', function ($query) use ($state) {
+                        $query->where('state', $state);
+                    })->orWhereHas('medicalCenter', function ($query) use ($state) {
+                        $query->where('state', $state);
+                    })->orWhereHas('clinic', function ($query) use ($state) {
+                        $query->where('state', $state);
+                    });
                 });
             } elseif ($city) {
                 $query->whereHas('locations', function ($query) use ($city) {
+                    $query->whereHas('hospital', function ($query) use ($city) {
+                        $query->where('city', $city);
+                    })->orWhereHas('medicalCenter', function ($query) use ($city) {
+                        $query->where('city', $city);
+                    })->orWhereHas('clinic', function ($query) use ($city) {
+                        $query->where('city', $city);
+                    });
                 });
             }
-
             // Retrieve the list of doctors based on the search criteria with eager loading
             $doctorsList = $query->with(['locations.hospital.user', 'locations.medicalCenter.user', 'locations.clinic.user'])->get();
 
