@@ -76,10 +76,9 @@ now if you logged in as a healthcare provider you will see notification telling 
 
 # Contributing
 Esptalia is an individual project created to address specific challenges in healthcare. While I developed this project solo, I welcome any suggestions, bug reports, or potential improvements from the community. If you have ideas for enhancements or find any issues, please feel free to:
-
-    * Open an issue in this repository to report bugs or propose new features.
-    * Fork the repository and create a pull request with your changes for review and potential inclusion.
-    * Contact me through [email/LinkedIn/other contact information] to discuss potential collaborations or improvements.
+    - Open an issue in this repository to report bugs or propose new features.
+    - Fork the repository and create a pull request with your changes for review and potential inclusion.
+    - Contact me through [email/LinkedIn/other contact information] to discuss potential collaborations or improvements.
 Your contributions, feedback, and ideas are appreciated, and they can potentially help improve Esptalia and benefit its users. Thank you for considering contributing to this project!
 
 # Related projects
