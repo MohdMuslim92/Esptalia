@@ -25,11 +25,14 @@ Make sure you have the following installed:
    ```
    
 2. **Clone the repository and configure it:**
+
 ```git clone https://github.com/MohdMuslim92/Esptalia.git
 cd Esptalia
-composer install```
+composer install
+```
 
 3. **Install Frontend Dependencies and Vue.js:**
+
     ```bash
     npm install
     ```
@@ -37,25 +40,30 @@ composer install```
 4. **Database Setup:**
     * Create a database for your project.
     * Configure .env with database credentials:
-    ```bash
+
+   ```bash
     cp .env.example .env
     ```
 
     and update the .env file with your config
 4. **Run migrations:**
+
     ```bash
     php artisan migrate
     ```
 
-5. **Start Development Server:**
+6. **Start Development Server:**
+
     ```bash
     php artisan serve
     ```
 
-6. **Compile Assets with Laravel Mix:**
+8. **Compile Assets with Laravel Mix:**
+
     ```bash
     npm run dev
     ```
+
 # Usage
 Now head to the localhost and register as a healthcare provider, fill the form and click register then when got redirected to the dashboard click on doctors and add a new doctor, enter new doctor details
 then head again to the doctors, choose the doctor you added and update it's working days and hours, availability and the rest of the data
