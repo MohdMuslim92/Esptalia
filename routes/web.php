@@ -57,6 +57,7 @@ Route::get('/Healthcare-Provider', function () {
     return Inertia::render('HealthcareDashboard');
 })->middleware(['auth', 'verified'])->name('healthcare.dashboard');
 
+// Route for About page
 Route::get('/About', function () {
     return Inertia::render('About', [
         'canLogin' => Route::has('login'),
@@ -69,6 +70,15 @@ Route::get('/About', function () {
 Route::get('Contact', [AuthenticatedSessionController::class, 'create'])
     ->name('Contact');
 
+// Route for Contact Us page
+Route::get('/Contact-Us', function () {
+    return Inertia::render('Contact', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->name('Contact');
 
 // Add Doctor
 Route::get('/Add-doctor', [AddDoctorController::class, 'create'])
