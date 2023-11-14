@@ -11,6 +11,7 @@ const doctorName = ref('');
 const doctorsList = ref([]); // Variable to store the list of doctors
 const searchPerformed = ref(false); // Flag to indicate if the search has been performed
 const dayAfterTomorrowDate = ref('');
+const resultContainer = ref(null);
 
 
 const searchDoctors = async () => {
@@ -35,6 +36,18 @@ const searchDoctors = async () => {
         console.error('Error fetching doctors:', error);
         // Set searchPerformed to false in case of error
         searchPerformed.value = false;
+    }
+    if (searchPerformed.value) {
+        const offset = 20; // Adjust this value as needed
+        const topPosition = resultContainer.value.offsetTop - offset;
+
+        // Use window.requestAnimationFrame to ensure smooth scrolling
+        const scrollAnimation = () => {
+            window.scroll(0, topPosition);
+        };
+
+        // Use requestAnimationFrame for smooth scrolling
+        window.requestAnimationFrame(scrollAnimation);
     }
 };
 
@@ -114,7 +127,8 @@ const bookAppointment = (doctorId, chosenDay, hospitalId, medicalCenterId, clini
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 flex flex-wrap gap-4">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 flex
+                        flex-wrap gap-4 justify-center space-x-4">
                     <div class="mb-4 flex-grow">
                         <label for="specialization" class="block text-sm font-medium text-gray-600">Specialization:</label>
                         <select v-model="selectedSpecialization" id="specialization" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
@@ -150,64 +164,60 @@ const bookAppointment = (doctorId, chosenDay, hospitalId, medicalCenterId, clini
                     </button>
                 </div>
             </div>
-            <div v-if="doctorsList.length > 0" class="flex pt-6 ml-4">
-                <!-- Content for doctorsList (left side) -->
-                <div class="flex-grow">
-                    <h2 class="text-2xl font-semibold mb-4">Search Results:</h2>
-                    <ul>
-                        <li class="pt-4 flex" v-for="doctor in doctorsList" :key="doctor.id">
-                            <h3 class="text-xl font-semibold">{{ doctor.first_name }} {{ doctor.last_name }}</h3>
-                            <p>Specialization: {{ doctor.speciality }}</p>
-                            <p>City: {{ doctor.city }}, State: {{ doctor.state }}</p>
-                            <!-- Right sidebar for appointments -->
-                            <div class="w-1/4 p-4 border-l">
-                                <div class="mb-6">
-                                    <div class="flex flex-col space-y-4">
-                                        <div class="flex justify-between">
-                                            <div class="column">
-                                                <p class="border-b-2 bg-blue-800 text-center text-white">Today</p>
-                                                <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
-                                                <button @click="bookAppointment(doctor.id, todayDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
-                                                        class="mt-4 bg-blue-500
-                                                        text-white py-1 px-2 rounded-md
-                                                        hover:bg-blue-700 mx-auto flex
-                                                        justify-center items-center">
-                                                    Book
-                                                </button>
-                                            </div>
-                                            <div class="column">
-                                                <p class="border-b-2 bg-blue-800 text-center text-white">Tomorrow</p>
-                                                <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
-                                                <button @click="bookAppointment(doctor.id, tomorrowDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
-                                                        class="mt-4 bg-blue-500
-                                                        text-white py-1 px-2 rounded-md
-                                                        hover:bg-blue-700 mx-auto flex
-                                                        justify-center items-center">
-                                                    Book
-                                                </button>
-                                            </div>
-                                            <div class="column">
-                                                <p class="border-b-2 bg-blue-800 text-center text-white">{{ dayAfterTomorrowDate }}</p>
-                                                <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
-                                                <button @click="bookAppointment(doctor.id, afterTomorrowDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
-                                                        class="mt-4 bg-blue-500
-                                                        text-white py-1 px-2 rounded-md
-                                                        hover:bg-blue-700 mx-auto flex
-                                                        justify-center items-center">
-                                                    Book
-                                                </button>
+            <div ref="resultContainer"  class="container mx-auto mt-4 px-4">
+                <div v-if="doctorsList.length > 0" class="flex flex-col pt-6">
+                    <!-- Content for doctorsList (left side) -->
+                    <div class="flex-grow mb-4">
+                        <h2 class="text-2xl font-semibold mb-4">Search Results:</h2>
+                        <ul>
+                            <li class="pt-4 flex flex-col sm:flex-row" v-for="doctor in doctorsList" :key="doctor.id">
+                                <div class="doctor-details mb-4 sm:pt-0 sm:pr-4 sm:w-3/4">
+                                    <h3 class="text-xl font-semibold">Dr. {{ doctor.first_name }} {{ doctor.last_name }}</h3>
+                                    <p>Specialization: {{ doctor.speciality }}</p>
+                                    <p>{{ doctor.user_name }} {{ doctor.type }}</p>
+                                    <p>{{ doctor.user_address }}</p>
+                                    <p>{{ doctor.city }}, {{ doctor.state }}</p>
+                                </div>
+                                <!-- Right sidebar for appointments -->
+                                <div class="appointments-details w-full sm:w-1/4 p-4 border-t sm:border-t-0 sm:border-l">
+                                    <div class="mb-6">
+                                        <div class="flex flex-col space-y-4">
+                                            <div class="flex justify-between">
+                                                <div class="column">
+                                                    <p class="border-b-2 bg-blue-800 text-center text-white">Today</p>
+                                                    <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
+                                                    <button @click="bookAppointment(doctor.id, todayDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
+                                                            class="mt-4 bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700 mx-auto flex justify-center items-center">
+                                                        Book
+                                                    </button>
+                                                </div>
+                                                <div class="column">
+                                                    <p class="border-b-2 bg-blue-800 text-center text-white">Tomorrow</p>
+                                                    <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
+                                                    <button @click="bookAppointment(doctor.id, tomorrowDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
+                                                            class="mt-4 bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700 mx-auto flex justify-center items-center">
+                                                        Book
+                                                    </button>
+                                                </div>
+                                                <div class="column">
+                                                    <p class="border-b-2 bg-blue-800 text-center text-white">{{ dayAfterTomorrowDate }}</p>
+                                                    <p class="pt-4 border-b border-black pb-3">From 18:00 to 23:00</p>
+                                                    <button @click="bookAppointment(doctor.id, afterTomorrowDate, doctor.hospital_id, doctor.medical_center_id, doctor.clinic_id)"
+                                                            class="mt-4 bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700 mx-auto flex justify-center items-center">
+                                                        Book
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div v-else-if="searchPerformed">
-                <p>No doctors found matching your search criteria.</p>
+                <div v-else-if="searchPerformed">
+                    <p class="text-center">No doctors found matching your search criteria.</p>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>
