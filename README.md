@@ -68,7 +68,7 @@ Make sure you have the following installed:
 # Usage
 Now head to the localhost and register as a healthcare provider, fill the form and click register then when got redirected to the dashboard click on doctors like below
 
-[Dashboard]([link_to_your_logo_image](https://drive.google.com/file/d/1sEhC5BJPCsJPW-HIjAYFomZNn7jaMJqq/view?usp=sharing))
+[Dashboard](https://drive.google.com/file/d/1sEhC5BJPCsJPW-HIjAYFomZNn7jaMJqq/view?usp=sharing)
 
 add a new doctor, enter new doctor details
 then head again to the doctors, choose the doctor you added and update it's working days and hours, availability and the rest of the data
