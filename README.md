@@ -26,10 +26,10 @@ Make sure you have the following installed:
    
 2. **Clone the repository and configure it:**
 
-```git clone https://github.com/MohdMuslim92/Esptalia.git
-cd Esptalia
-composer install
-```
+    ```git clone https://github.com/MohdMuslim92/Esptalia.git
+    cd Esptalia
+    composer install
+    ```
 
 3. **Install Frontend Dependencies and Vue.js:**
 
