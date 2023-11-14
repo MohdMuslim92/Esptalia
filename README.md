@@ -1,4 +1,5 @@
-<img src="https://drive.google.com/drive/u/0/folders/1aiXfxqU4sw9fULy5gOOpUAcngcGd7vvd" alt="Esptalia Logo" width="100%">
+![Esptalia logo](https://github.com/MohdMuslim92/Esptalia/assets/122816330/9b15d1a3-3e31-4c99-8af0-d4d62a44dc73)
+
 
 # Esptalia
 Esptalia is a healthcare platform that revolutionizes Sudan's healthcare system by connecting patients and providers seamlessly. Users can book appointments, access real-time information, and enhance healthcare accessibility through digital innovation.
@@ -69,7 +70,8 @@ Make sure you have the following installed:
 # Usage
 Now head to the localhost and register as a healthcare provider, fill the form and click register then when got redirected to the dashboard click on doctors like below
 
-![Dashboard](https://drive.google.com/drive/u/0/folders/1aiXfxqU4sw9fULy5gOOpUAcngcGd7vvd)
+![Dashboard](https://github.com/MohdMuslim92/Esptalia/assets/122816330/57aee7f3-bf7b-4475-9a79-accb7792c67c)
+
 
 add a new doctor, enter new doctor details
 then head again to the doctors, choose the doctor you added and update it's working days and hours, availability and the rest of the data
