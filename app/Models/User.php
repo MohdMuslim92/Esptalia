@@ -17,6 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    // Fields of the Users table to insert data into
     protected $fillable = [
         'name',
         'phone_number',

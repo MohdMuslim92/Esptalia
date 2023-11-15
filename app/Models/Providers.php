@@ -18,6 +18,7 @@ class Providers extends Authenticatable
      *
      * @var array<int, string>
      */
+    // Fields of the Providers table to insert data into
     protected $fillable = [
         'user_id',
         'hospital_id',

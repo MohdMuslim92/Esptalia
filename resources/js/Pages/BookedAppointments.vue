@@ -12,6 +12,7 @@ const allAppointments = ref([]);
 const allVisibleAppointments = ref([]);
 const currentAppointmentIndex = ref(0);
 
+// Fetch new un confirmed appointments which displayed in the notification section
 const fetchAppointments = () => {
     axios.get('/notifications')
         .then(response => {
@@ -28,6 +29,7 @@ const fetchAppointments = () => {
 };
 onMounted(fetchAppointments);
 
+// Scroll the appointments to show previous
 const scrollLeft = () => {
     if (currentIndex.value > 0) {
         currentIndex.value -= 1;
@@ -35,6 +37,7 @@ const scrollLeft = () => {
     }
 };
 
+// Scroll the appointments to show next
 const scrollRight = () => {
     if (currentIndex.value < appointments.value.length - 3) {
         currentIndex.value += 1;
@@ -42,10 +45,12 @@ const scrollRight = () => {
     }
 };
 
+// show appointments 3 at a time and hide the rest
 const updateVisibleAppointments = () => {
     visibleAppointments.value = appointments.value.slice(currentIndex.value, currentIndex.value + 3);
 };
 
+// Fetch all appointments
 const fetchAllAppointments = () => {
     axios.get('/api/appointments/display')
         .then(appointmentsResponse => {
@@ -59,10 +64,12 @@ const fetchAllAppointments = () => {
 
 onMounted(fetchAllAppointments);
 
+// show appointments 3 at a time and hide the rest
 const updateAllVisibleAppointments = () => {
     allVisibleAppointments.value = allAppointments.value.slice(currentAppointmentIndex.value, currentAppointmentIndex.value + 3);
 };
 
+// Scroll the appointments to show previous
 const appointmentscrollLeft = () => {
     if (currentAppointmentIndex.value > 0) {
         currentAppointmentIndex.value -= 1;
@@ -70,6 +77,7 @@ const appointmentscrollLeft = () => {
     }
 };
 
+// Scroll the appointments to show next
 const appointmentscrollRight = () => {
     if (currentAppointmentIndex.value < allAppointments.value.length - 3) {
         currentAppointmentIndex.value += 1;
@@ -77,11 +85,10 @@ const appointmentscrollRight = () => {
     }
 };
 
+// Confirm the booked appointments
 const confirmAppointment = (appointmentId) => {
     axios.patch(`/api/appointments/confirm/${appointmentId}`, { status: 'confirmed' })
         .then(response => {
-            // Handle success
-            console.log('Appointment confirmed successfully:', response.data);
             // Reload appointments after confirming
             fetchAppointments();
         })
@@ -91,6 +98,7 @@ const confirmAppointment = (appointmentId) => {
         });
 };
 
+// Cancel booked appointments
 const cancelAppointment = (appointmentId) => {
     axios.patch(`/api/appointments/cancel/${appointmentId}`, { status: 'canceled' })
         .then(response => {
@@ -114,6 +122,7 @@ const cancelAppointment = (appointmentId) => {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Booked Appointments Details</h2>
         </template>
         <div class="h-screen flex items-center justify-center">
+            <!-- Display not confirmed appointments -->
             <div class="flex-col items-center space-y-8 pl-20 justify-evenly">
                 <h1 class="text-6xl font-bold text-center mb-4">Waiting For Confirmation</h1>
                 <div v-if="appointments.length > 0" class="flex space-x-4 mb-4">
@@ -147,6 +156,7 @@ const cancelAppointment = (appointmentId) => {
         </div>
 
         <div class="h-screen flex items-center justify-center">
+            <!-- Display all appointments history including not confirmed -->
             <div class="flex-col items-center space-y-8 pl-20 justify-evenly">
                 <h1 class="text-6xl font-bold text-center mb-4">Appointments History</h1>
                 <div v-if="allAppointments.length > 0" class="flex space-x-4 mb-4">
@@ -177,6 +187,7 @@ const cancelAppointment = (appointmentId) => {
 </template>
 
 <style scoped>
+/* Style the display of the appointment */
 .card {
     background-color: #ffffff;
     border-radius: 10px;

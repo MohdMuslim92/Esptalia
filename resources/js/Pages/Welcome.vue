@@ -168,7 +168,7 @@ const getUserRole = () => {
 };
 
 onMounted(() => {
-    typingInterval = setInterval(displayText, 100); // Adjust typing speed (interval) as needed
+    typingInterval = setInterval(displayText, 100); // Adjust typing speed (interval)
     getUserRole();
 });
 

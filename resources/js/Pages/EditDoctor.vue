@@ -49,6 +49,7 @@ const hours = Array.from({ length: 24 }, (_, index) => {
     return `${hour}:00`;
 });
 
+// Variables to be sent with the form on submit
 const form = useForm({
     first_name: first_name,
     last_name: last_name,
@@ -91,6 +92,7 @@ watch(() => doctor.value, (newValue) => {
 watch(() => doctor.value, async (newValue) => {
     if (newValue) {
         try {
+            // Get the locations details for the doctors
             const locationResponse = await axios.get(`/Get-locations/${doctor.value.id}`);
             locations.value = locationResponse.data;
             console.log(locations.value);
@@ -106,6 +108,7 @@ watch(() => doctor.value, async (newValue) => {
                 }
             });
 
+            // Split the hours to get the from and to working time
             const [workingHoursFrom, workingHoursTo] = locations.value.working_hours.split(' to ');
             form.working_hours_from = workingHoursFrom;
             form.working_hours_to = workingHoursTo;

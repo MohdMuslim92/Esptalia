@@ -18,6 +18,7 @@ class MedicalCenters extends Authenticatable
      *
      * @var array<int, string>
      */
+    // Fields of the Medical centers table to insert data into
     protected $fillable = [
         'user_id',
         'state',

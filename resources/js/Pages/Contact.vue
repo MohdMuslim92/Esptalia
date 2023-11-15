@@ -324,8 +324,8 @@ onMounted(() => {
 
 /* Style for the contact form */
 .contact-form {
-    width: 60%; /* Adjust the width as needed */
-    max-width: 400px; /* Set a maximum width if desired */
+    width: 60%; /* Adjust the width */
+    max-width: 400px; /* Set a maximum width */
     padding: 20px;
     border: 2px solid #ddd; /* Add a border */
     border-radius: 10px; /* Add rounded corners */
@@ -336,6 +336,6 @@ onMounted(() => {
 .contact-form input[type="text"],
 .contact-form input[type="email"],
 .contact-form input[type="tel"] {
-    height: 2.5rem; /* Adjust the height as needed */
+    height: 2.5rem; /* Adjust the height */
 }
 </style>

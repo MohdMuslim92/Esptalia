@@ -45,6 +45,7 @@ class ProviderProfileController extends Controller
             $providerType = 'clinic';
         }
 
+        // Validate data
         $validator = Validator::make($request->all(), [
             'name' => ['string', 'max:255'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($userId)],

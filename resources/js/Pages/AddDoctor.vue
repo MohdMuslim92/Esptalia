@@ -6,6 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
+// Variables to be sent with the form when submit
 const form = useForm({
     first_name: '',
     last_name: '',

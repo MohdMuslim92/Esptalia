@@ -39,6 +39,7 @@ if (provider_id.value.type === 'clinic')
     type.value = 'Clinic'
 }
 
+// Variables to be sent with the form on submit
 const form = useForm({
     name: '',
     email: '',
@@ -55,12 +56,6 @@ const form = useForm({
     status: 'booked',
 });
 
-
-onMounted(() => {
-    console.log('Doctor Data:', doctor.value);
-    console.log('Chosen Day:', appointment_time.value);
-    console.log('Provider ID:', provider_type_id.value);
-});
 const submitAppointment = async () => {
     try {
         form.post(route('MakeAppointment'));
@@ -69,8 +64,6 @@ const submitAppointment = async () => {
     }
 };
 
-console.log(provider_id.value.type);
-console.log(provider_id.value.user_id);
 </script>
 
 <template>

@@ -32,7 +32,3 @@ import ApplicationLogo from '../Components/ApplicationLogo.vue';
         </Link>
     </div>
 </template>
-
-<style scoped>
-/* Add your scoped styles here */
-</style>

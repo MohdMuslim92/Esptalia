@@ -19,6 +19,7 @@ class Patients extends Model
      *
      * @var array<int, string>
      */
+    // Fields of the patients table to insert data into
     protected $fillable = [
         'user_id',
         'name',

@@ -24,12 +24,13 @@ use Inertia\Inertia;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
+| Here is where we can register web routes for our application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| contains the "web" middleware group.
 |
 */
 
+// Render the main page for booking
 Route::get('/booking', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -39,10 +40,12 @@ Route::get('/booking', function () {
     ]);
 })->name('home');
 
+// Dashboard for regular users
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// The landing page
 Route::get('/', function () {
     return Inertia::render('index', [
         'canLogin' => Route::has('login'),
@@ -52,6 +55,7 @@ Route::get('/', function () {
     ]);
 })->name('landing');
 
+// Healthcare provider dashboard
 Route::get('/Healthcare-Provider', function () {
     // Healthcare provider dashboard
     return Inertia::render('HealthcareDashboard');
@@ -67,8 +71,6 @@ Route::get('/About', function () {
     ]);
 })->name('About');
 
-Route::get('Contact', [AuthenticatedSessionController::class, 'create'])
-    ->name('Contact');
 
 // Route for Contact Us page
 Route::get('/Contact-Us', function () {
@@ -84,10 +86,6 @@ Route::get('/Contact-Us', function () {
 Route::get('/Add-doctor', [AddDoctorController::class, 'create'])
     ->name('addDoctor');
 
-// Update Doctor
-Route::get('/Edit-doctor', [DoctorsController::class, 'update'])
-    ->name('UpdateDoctor');
-
 // Get Doctor
 Route::get('/Get-doctor/{email}', [DoctorsController::class, 'index'])
     ->name('GetDoctor');
@@ -96,30 +94,36 @@ Route::get('/Get-doctor/{email}', [DoctorsController::class, 'index'])
 Route::get('/Get-locations/{doctorID}', [DoctorLocationsController::class, 'index'])
     ->name('GetDoctor');
 
-// Edit Doctor
+// Edit Doctor, this render Edit Doctor template
 Route::get('/Edit-doctor/{email}', [DoctorsController::class, 'edit'])
     ->name('EditDoctor');
 
+// Update Doctor data
 Route::patch('/update-doctor/{id}', [DoctorsController::class, 'update'])->name('doctor.update');
 
+// Add Doctor, store the doctors data
 Route::post('/Add-doctor', [AddDoctorController::class, 'store']);
 
-Route::get('/api/healthcare-providers/{id}', [HealthcareProviderController::class, 'show']);
-
+// Get healthcare provider by id
 Route::get('/api/providers/{userId}', [ProviderController::class, 'show']);
 
+// Get hospital by id
 Route::get('/api/hospital/{userId}', [HospitalController::class, 'show']);
 
+// Get medical center by id
 Route::get('/api/medical-center/{userId}', [MedicalCenterController::class, 'show']);
 
+// Get clinic by id
 Route::get('/api/clinic/{userId}', [ClinicController::class, 'show']);
 
+// Retrieve appointments
 Route::get('/api/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
 
 // Make an appointment
 Route::post('/api/appointments', [AppointmentController::class, 'create'])
     ->name('MakeAppointment');
 
+// Display notifications
 Route::get('/notifications', [NotificationController::class, 'index']);
 
 Route::get('/api/doctors', function () {
@@ -127,13 +131,17 @@ Route::get('/api/doctors', function () {
     return Inertia::render('Doctors');
 })->middleware(['auth', 'verified'])->name('doctors');
 
+// Search for doctors
 Route::get('/api/doctors/search', [DoctorsController::class, 'searchDoctors'])
     ->name('doctors.search');
 
+// Display doctors list in the doctors at the healthcare dashboard
 Route::get('/api/doctors-list', [DoctorsController::class, 'show']);
 
+// Get the doctors working times and locations in the doctors at healthcare dashboard
 Route::get('/api/doctor-locations/{providerId}', [DoctorLocationsController::class, 'show']);
 
+// Render appointments page with the appointments details
 Route::get('/book-appointment', [AppointmentController::class, 'showAppointmentPage']);
 
 // Booked Appointments list
@@ -149,6 +157,7 @@ Route::get('/booking-success', function () {
         'successMessage' => $successMessage,
     ]);
 })->name('booking-success');
+
 // Confirm appointment
 Route::patch('/api/appointments/confirm/{appointment}', [AppointmentController::class, 'confirmAppointment']);
 

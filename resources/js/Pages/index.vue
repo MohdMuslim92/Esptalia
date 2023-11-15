@@ -56,7 +56,7 @@ const getUserRole = () => {
         });
 };
 onMounted(() => {
-    typingInterval = setInterval(displayText, 100); // Adjust typing speed (interval) as needed
+    typingInterval = setInterval(displayText, 100); // Adjust typing speed (interval)
     getUserRole();
 });
 
@@ -330,7 +330,7 @@ onMounted(() => {
 
     background-image: url('/resources/img/cover.jpg');
     width: 100%;
-    background-size: cover; /* Adjust the background size as needed */
+    background-size: cover; /* Adjust the background size */
     background-position: center center; /* Center the background image */
     background-repeat: no-repeat; /* Prevent the background from repeating */
     height: 75vh; /* Set the height of the wrapper to fill the viewport */

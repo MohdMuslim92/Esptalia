@@ -37,6 +37,7 @@ class AddDoctorController extends Controller
             $provider = 'clinic_id';
         }
 
+        // Validate the data
         $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',

@@ -20,6 +20,7 @@ class Doctors extends Authenticatable
      *
      * @var array<int, string>
      */
+    // Fields of the Doctors table to insert data into
     protected $fillable = [
         'first_name',
         'last_name',

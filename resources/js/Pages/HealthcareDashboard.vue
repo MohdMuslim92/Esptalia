@@ -35,6 +35,7 @@ let license_pic = ref('');
 onMounted(async () => {
     try {
         const userId = user.id;
+        // Get the logged in provider details
         const response = await axios.get(`/api/providers/${userId}`);
         provider.value = response.data;
 
@@ -43,6 +44,7 @@ onMounted(async () => {
     }
 });
 
+// Update the specialization, type and license_pic values after making the axios call
 watch(() => provider.value, (newValue) => {
     if (newValue) {
         specialization = newValue.specialization;
@@ -52,6 +54,8 @@ watch(() => provider.value, (newValue) => {
 
     }
 });
+
+// Get the hospital, medical center or clinic details depending on the type value
 watch(() => provider.value.type, async (newValue) => {
     if (newValue) {
 
@@ -107,6 +111,7 @@ axios.interceptors.response.use(
     }
 );
 
+// Display the working days correctly from a json object
 const filteredWorkingDays = computed(() => {
     try {
         const workingDaysArray = JSON.parse(working_days.value);

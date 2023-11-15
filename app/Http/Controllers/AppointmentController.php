@@ -197,29 +197,4 @@ class AppointmentController extends Controller
 
     }
 
-    /*    public function bookAppointment(Request $request)
-        {
-            $doctorId = $request->query('doctorId');
-            $chosenDay = $request->query('chosenDay');
-
-            // Loop through all query parameters to find the correct provider ID and its name
-            $providerId = null;
-            $providerName = null;
-            foreach ($request->query() as $key => $value) {
-                // Check if the key ends with '_id'
-                if (str_ends_with($key, '_id')) {
-                    // Extract provider name from the key
-                    $providerName = $key;
-                    $providerId = $value;
-                    break;
-                }
-            }
-
-            // Retrieve doctor details based on the provided $doctorId from the database
-            $doctor = Doctors::find($doctorId);
-
-            // Pass the doctor details, chosenDay, and providerId to the view
-            return view('appointments.book', compact('doctor', 'chosenDay', 'providerId', 'providerName'));
-        } */
-
 }
