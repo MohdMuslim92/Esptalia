@@ -17,6 +17,7 @@ class DoctorLocations extends Model
      *
      * @var array<int, string>
      */
+    // Fields of the Doctor locations table to insert data into
     protected $fillable = [
         'doctor_id',
         'hospital_id',

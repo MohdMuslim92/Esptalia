@@ -23,6 +23,8 @@ class Appointments extends Model
      *
      * @var array<int, string>
      */
+
+    // Fields of the appointments table to insert data into
     protected $fillable = [
         'patient_id',
         'doctor_id',

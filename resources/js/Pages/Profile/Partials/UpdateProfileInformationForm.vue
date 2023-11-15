@@ -25,6 +25,7 @@ let type = ref('');
 let state = ref('');
 let city = ref('');
 let description = ref('');
+// Initialize working days
 let working_days = ref([
     { name: 'Monday', isChecked: false },
     { name: 'Tuesday', isChecked: false },
@@ -40,17 +41,13 @@ let workingHoursTo = ref('');
 let availability = ref('');
 let license_number = ref('');
 const loading = ref(true);
-const selectedWorkingDays = computed(() => {
-    return working_days.value
-        .filter((day) => day.isChecked)
-        .map((day) => day.name);
-});
 
 const hours = Array.from({ length: 24 }, (_, index) => {
     const hour = String(index).padStart(2, '0');
     return `${hour}:00`;
 });
 
+// Variables to be sent with the form on submit
 const form = useForm({
     name: user.name,
     phone_number: user.phone_number,
@@ -84,10 +81,6 @@ onMounted(async () => {
     }
 });
 
-const workingHours = computed(() => {
-    return `${workingHoursFrom.value} to ${workingHoursTo.value}`;
-});
-
 
 // Watch for changes in working_hours_from and working_hours_to
 watch([workingHoursFrom, workingHoursTo], ([from, to]) => {
@@ -95,6 +88,7 @@ watch([workingHoursFrom, workingHoursTo], ([from, to]) => {
     form.working_hours = `${from} to ${to}`;
 });
 
+// Update specialization after making the axios call
 watch(() => provider.value, (newValue) => {
     if (newValue) {
         form.specialization = newValue.specialization;
@@ -124,6 +118,7 @@ watch(() => provider.value.type, async (newValue) => {
                         foundDay.isChecked = day.isChecked;
                     }
                 });
+                // Split working hours into from and to hours
                 const [workingHoursFrom, workingHoursTo] = hospitalResponse.data.working_hours.split(' to ');
                 form.working_hours_from = workingHoursFrom;
                 form.working_hours_to = workingHoursTo;
@@ -147,6 +142,7 @@ watch(() => provider.value.type, async (newValue) => {
                         foundDay.isChecked = day.isChecked;
                     }
                 });
+                // Split working hours into from and to hours
                 const [workingHoursFrom, workingHoursTo] = medicalCenterResponse.data.working_hours.split(' to ');
                 form.working_hours_from = workingHoursFrom;
                 form.working_hours_to = workingHoursTo;
@@ -171,6 +167,7 @@ watch(() => provider.value.type, async (newValue) => {
                         foundDay.isChecked = day.isChecked;
                     }
                 });
+                // Split working hours into from and to hours
                 const [workingHoursFrom, workingHoursTo] = clinicResponse.data.working_hours.split(' to ');
                 form.working_hours_from = workingHoursFrom;
                 form.working_hours_to = workingHoursTo;
@@ -192,6 +189,8 @@ axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+// Merge working hours from and working hours to in order to store it in the database
 const mergedWorkingHours = computed(() => {
     return `${form.working_hours_from} to ${form.working_hours_to}`;
 });

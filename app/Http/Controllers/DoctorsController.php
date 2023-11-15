@@ -16,6 +16,7 @@ class DoctorsController extends Controller
 {
     public function index($email)
     {
+        // Function to retrieve all doctor based on email
         $doctor = Doctors::where('email', $email)->first();
 
         return response()->json($doctor);
@@ -23,6 +24,7 @@ class DoctorsController extends Controller
 
     public function show()
     {
+        // Function to retrieve all doctors
         $doctors = Doctors::all();
 
         return response()->json($doctors);
@@ -81,6 +83,7 @@ class DoctorsController extends Controller
             ->first();
 
 
+        // Validate data
         $validator = Validator::make($request->all(), [
             // Doctor fields
             'first_name' => ['string', 'max:255'],
@@ -115,6 +118,7 @@ class DoctorsController extends Controller
 
     public function searchDoctors(Request $request)
     {
+        // Fucntion that perfom a search and filter based on several options
         try {
             $specialization = $request->input('specialization');
             $name = $request->input('name');

@@ -14,6 +14,7 @@ const showNotifications = ref(false);
 let user_role = ref('');
 let pollingInterval;
 
+// Fetch new notifications
 const fetchNotifications = () => {
     axios.get('/notifications')
         .then(response => {
@@ -26,7 +27,7 @@ const fetchNotifications = () => {
         });
 };
 
-// Poll for new notifications every 5 seconds (adjust the interval as needed)
+// Poll for new notifications every 5 seconds
 const startPolling = () => {
     pollingInterval = setInterval(fetchNotifications, 5000);
 };

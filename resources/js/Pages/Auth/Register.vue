@@ -9,6 +9,7 @@ import { ref } from 'vue';
 
 const isHealthcareProvider = ref(false);
 
+// Variables sent with user form submit
 const form = useForm({
     name: '',
     phone_number: '',
@@ -19,6 +20,8 @@ const form = useForm({
     date_of_birth: '',
     address: '',
 });
+
+// Variables sent with healthcare provider form submit
 const providerForm = useForm({
     name: '',
     phone_number: '',
@@ -66,6 +69,7 @@ const onFileChange = (event) => {
 
         <!-- Toggle button for regular user and healthcare provider -->
         <button @click="toggleForm" class="mb-4">Switch to {{ isHealthcareProvider ? 'User' : 'Healthcare Provider' }} Registration</button>
+
         <!-- Regular User Registration Form -->
         <form v-if="!isHealthcareProvider" @submit.prevent="submit">
             <div>
